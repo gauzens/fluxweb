@@ -2,10 +2,6 @@
 #'
 #' compute resiliance of the system through jacobian eigenvalues
 #'
-#'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#'WARNING: so far I assume that basal species are always first elements in vectors oand matrices...
-#'Need to think hoe to do without that for growth rates (wich is a vector defined only for basal species...)
-#'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #'
 #' @param val.mat A matrix describing fluxes between species (usually a result of \code{\link[fluxweb]{fluxing}} function).
 #' @param biomasses A vector of species biomasses.
