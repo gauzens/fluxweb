@@ -133,15 +133,16 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
   ### first arrange mat: apply the biomass scaling of preferences if needed
   ### columns should sum to 1 for predators, 0 to preys
   column.sum = colSums(mat)
+  # in the following, the as.matrix() is needed becaue sometimes mat[, column.sum > 0] is only one column and thanks to R, is automatically cast to a vector
   if (bioms.prefs){
     # 'apply functional' response of preferencs
     # mat[, column.sum > 0] = apply(mat[, column.sum > 0], 2, function(vec, bioms) vec*biomasses/sum(vec*biomasses), biomasses) #! in the function I should use bioms instead biomasses
-    mat[, column.sum > 0] = apply(mat[, column.sum > 0], 2, function(vec) vec*biomasses/sum(vec*biomasses)) #! in the function biomasses is already defined more globaly, so no need of another parameter
+    mat[, column.sum > 0] = apply(as.matrix(mat[, column.sum > 0]), 2, function(vec) vec*biomasses/sum(vec*biomasses)) #! in the function biomasses is already defined more globaly, so no need of another parameter
 
       } else { # here optimise with else if not all element of colsums are equal to either 1 or 0...
     # sum of entries have to sum to one for each predator (normalisaton of preferences)
     colomn.sum = colSums(mat)
-    mat[, colomn.sum>0] = sweep(mat[, colomn.sum>0], 2, colomn.sum[colomn.sum>0], "/")
+    mat[, colomn.sum>0] = sweep(apply(as.matrix(mat[, colomn.sum>0])), 2, colomn.sum[colomn.sum>0], "/")
   }
 
   ### define loss vector as the sum of species losses:
