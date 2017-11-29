@@ -176,7 +176,7 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
   }
   
   if (is.any(F < 0)){
-    stop("impossible to solve the system")
+    stop("model chosen is unable to determine fluxes accoringly to data")
   }
   ### set individual fluxes (each element of ith line from mat.norm is multiplied bu the ith element of F)
   flux.mat = sweep(mat, 2, F, "*")
