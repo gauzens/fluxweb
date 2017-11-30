@@ -399,7 +399,6 @@ create.jacob = function(val.mat, biomasses, losses, efficiencies, growth.rate, b
               jacob[i,j] = -losses[i] + val.mat[i,j] * (efficiencies[i] - 1) / biomasses[i] +
                 sum(val.mat[,i] * efficiencies) / biomasses[i] - sum(val.mat[i,]) / biomasses[i]
             }
-            # should change the following line to consider a flag for efficiencies = "link.level" instead of checking if it's a matri or not
             if (ef.level == "link.specific"){
               jacob[i,j] = -losses[i] + val.mat[i,j] * (efficiencies[i,i] - 1) / biomasses[i] +
                 sum(val.mat[,i] * efficiencies[,i]) / biomasses[i] - sum(val.mat[i,]) / biomasses[i]
