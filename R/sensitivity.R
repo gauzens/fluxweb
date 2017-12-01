@@ -28,13 +28,13 @@
 #'
 #'
 #'res = sensitivity(fluxing, "mat", 0.1, 5, full.output = TRUE, mat = species.level$mat, biomasses = species.level$biomasses, losses = losses, efficiencies = species.level$efficiencies)
-#'res = sensitivity(fluxing, "efficiencies", 0.1, 50, mat = species.level$mat, biomasses = species.level$biomasses, losses = losses, efficiencies = species.level$efficiencies)
+#'res = sensitivity(fluxing, "efficiencies", 0.01, 50, mat = species.level$mat, biomasses = species.level$biomasses, losses = losses, efficiencies = species.level$efficiencies)
 #'
 #' # growth rates of basal sppecies
 #'growth.rate = rep(0.5, length(species.level$biomasses[colSums(species.level$mat) == 0]))
 #'
-#'val.mat = fluxing(species.level$mat, species.level$biomasses, losses, efficiencies)
-#'sensitivity(stability.value, "efficiencies", 0.1, 50, val.mat = val.mat, biomasses = species.level$biomasses, losses = losses, efficiencies = species.level$efficiencies, growth.rate = growth.rate)
+#'val.mat = fluxing(species.level$mat, species.level$biomasses, losses, species.level$efficiencies)
+#'#sensitivity(stability.value, "efficiencies", 0.01, 50, val.mat = val.mat, biomasses = species.level$biomasses, losses = losses, efficiencies = species.level$efficiencies, growth.rate = growth.rate)
 #'
 #'
 #'cvs = c()

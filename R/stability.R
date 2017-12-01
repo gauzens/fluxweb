@@ -52,13 +52,13 @@
 #'
 #' @examples
 # # first compute species per unit biomass metabolic rates using the metabolic theory:
-#' losses = 0.1 * species.level$bodymasses^(-0.25)
+#' losses = 0.15 * groups.level$bodymasses^(-0.25)
 #'
 #' # growth rates of basal sppecies
-#' growth.rates = rep(0.5, length(species.level$biomasses[colSums(species.level$mat) == 0]))
+#' growth.rates = rep(0.5, length(groups.level$biomasses[colSums(groups.level$mat) == 0]))
 #'
-#' val.mat = fluxing(species.level$mat, species.level$biomasses, losses, species.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
-#' stability.value(val.mat, species.level$biomasses, losses, species.level$efficiencies, growth.rates, ef.level = "pred")
+#' val.mat = fluxing(groups.level$mat, groups.level$biomasses, losses, groups.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
+#' stability.value(val.mat, groups.level$biomasses, losses, groups.level$efficiencies, growth.rates, ef.level = "pred")
 #'
 #' @author Benoit gauzens, \email{benoit.gauzens@gmail.com}
 #'
@@ -204,13 +204,13 @@ stability.value = function(val.mat,
 #' @examples
 #'
 # # first compute species per unit biomass metabolic rates using the metabolic theory:
-#' losses = 0.1 * species.level$bodymasses^(-0.25)
+#' losses = 0.15 * groups.level$bodymasses^(-0.25)
 #'
 #' # growth rates of basal sppecies
-#' growth.rates = rep(0.5, length(species.level$biomasses[colSums(species.level$mat) == 0]))
+#' growth.rates = rep(0.5, length(groups.level$biomasses[colSums(groups.level$mat) == 0]))
 #'
-#' val.mat = fluxing(species.level$mat, species.level$biomasses, losses, species.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
-#'make.stability(val.mat, species.level$biomasses, losses, species.level$efficiencies, growth.rates, ef.level = "pred")
+#' val.mat = fluxing(groups.level$mat, groups.level$biomasses, losses, groups.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
+#' make.stability(val.mat, groups.level$biomasses, losses, groups.level$efficiencies, growth.rates, ef.level = "pred")
 #'
 #' @export
 #'
@@ -345,7 +345,7 @@ make.stability = function(val.mat,
     stop("unable to assess minimal stability value: system always stable in specified interval.")
   }
    if (stab.lower > 0 && stab.upper > 0){
-    stop("unable to assess minimal stability value: system never stable: system never stable in specified interval.")
+    stop("unable to assess minimal stability value: system never stable in specified interval.")
   }
 
   min.stab.value = stats::uniroot(stability.value.wrapper, interval, ..., unvariant, col, val.mat, biomasses, efficiencies, growth.rate, bioms.prefs, bioms.losses, ef.level,
