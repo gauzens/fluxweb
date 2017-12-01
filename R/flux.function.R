@@ -175,7 +175,7 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
     F = solve(diag(vec.in) - mat) %*% losses
   }
   
-  if (is.any(F < 0)){
+  if (any(F < 0)){
     stop("model chosen is unable to determine fluxes accoringly to data")
   }
   ### set individual fluxes (each element of ith line from mat.norm is multiplied bu the ith element of F)
