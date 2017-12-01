@@ -1,7 +1,7 @@
 #'Aggregated version of the Food web of a soil network ecosystem and species general informations (\code{species.level}).
 #'
 #'This dataset contains the matrix describing trophic interactions between trophic groups of a deutsch soil food-web (reference)
-#'as well as some ecological information on These groups: biomasses, body masses and and species composition.
+#'as well as some ecological information on these groups: biomasses, body masses and and species composition.
 #'
 #'@format a list of 5 elements:
 #'\describe{
