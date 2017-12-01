@@ -70,13 +70,8 @@ and ask \code{efficiencies} parameter to be a matrix
 # first compute species per unit biomass metabolic rates using the metabolic theory:
 losses = 0.1 * species.level$bodymasses^(-0.25)
 
-# Then assess prey efficiencies (0.35 for basal species, 0.85 for non basal)
-efficiencies = rep(NA, length(species.level$names))
-efficiencies[colSums(species.level$mat) == 0] = 0.35
-efficiencies[colSums(species.level$mat) > 0] = 0.85
-
 # call of the function:
-fluxing(species.level$mat, species.level$biomasses, losses, efficiencies, bioms.pref = TRUE, ef.level = "prey")
+fluxing(species.level$mat, species.level$biomasses, losses, species.level$efficiencies, bioms.pref = TRUE, ef.level = "prey")
 
 }
 \author{

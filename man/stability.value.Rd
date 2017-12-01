@@ -61,18 +61,13 @@ and ask \code{efficiencies} parameter to be a matrix
 }
 }
 \examples{
-losses = 0.1 * species.level$bodymasses^(-0.25)
-
-# Then assess prey efficiencies (0.35 for basal species, 0.85 for non basal)
-efficiencies = rep(NA, length(species.level$names))
-efficiencies[colSums(species.level$mat) == 0] = 0.35
-efficiencies[colSums(species.level$mat) > 0] = 0.85
+losses = 0.15 * groups.level$bodymasses^(-0.25)
 
 # growth rates of basal sppecies
-growth.rates = rep(0.5, length(species.level$biomasses[colSums(species.level$mat) == 0]))
+growth.rates = rep(0.5, length(groups.level$biomasses[colSums(groups.level$mat) == 0]))
 
-val.mat = fluxing(species.level$mat, species.level$biomasses, losses, efficiencies, bioms.pref = TRUE, ef.level = "pred")
-stability.value(val.mat, species.level$biomasses, losses, efficiencies, growth.rates, ef.level = "pred")
+val.mat = fluxing(groups.level$mat, groups.level$biomasses, losses, groups.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
+stability.value(val.mat, groups.level$biomasses, losses, groups.level$efficiencies, growth.rates, ef.level = "pred")
 
 }
 \author{

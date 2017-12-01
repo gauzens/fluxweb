@@ -54,26 +54,13 @@ This is an ugly part, but I don't see how to do better right now. Any ideas?
 }
 \examples{
 
-mat = matrix(0, 5, 5)
-mat[2,1] = 1
-mat[5,1] = 1
-mat[3,2] = 1
-mat[4,2] = 1
+losses = 0.15 * groups.level$bodymasses^(-0.25)
 
-# metabolic losses:
-losses = c(0.6299, 0.25, 0.12, 0.15, 0.1)
-
-# biomasses
-biomasses = c(1.5, 1.51, 1.8, 1.5, 2)
-
-# efficiencies
-efficiencies = c(0.85, 0.85, 0.35, 0.35, 0.35)
 # growth rates of basal sppecies
-growth.rates = c(0.28, 0.32, 0.19)
-losses = c(0.64, 0.4, 0.25, 0.3, 0.1)
-val.mat = fluxing(mat, biomasses, losses, efficiencies, bioms.pref = TRUE, ef.level = "pred")
-make.stability(val.mat, biomasses, losses, efficiencies, growth.rates, ef.level = "pred")
+growth.rates = rep(0.5, length(groups.level$biomasses[colSums(groups.level$mat) == 0]))
 
+val.mat = fluxing(groups.level$mat, groups.level$biomasses, losses, groups.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
+make.stability(val.mat, groups.level$biomasses, losses, groups.level$efficiencies, growth.rates, ef.level = "pred")
 
 }
 \seealso{
