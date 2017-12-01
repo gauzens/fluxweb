@@ -63,7 +63,7 @@
 #'efficiencies[colSums(species.level$mat) > 0] = 0.85
 #'
 #'# call of the function:
-#'fluxing(species.level$mat, species.level$biomasses, losses, efficiencies, bioms.pref = TRUE, ef.level = "prey")
+#'fluxing(species.level$mat, species.level$biomasses, losses, species.level$efficiencies, bioms.pref = TRUE, ef.level = "prey")
 #'
 #' @export
 #'
