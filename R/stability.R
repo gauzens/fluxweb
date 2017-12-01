@@ -209,7 +209,7 @@ stability.value = function(val.mat,
 #' # growth rates of basal sppecies
 #' growth.rates = rep(0.5, length(species.level$biomasses[colSums(species.level$mat) == 0]))
 #'
-#' val.mat = fluxing(species.level$mat, species.level$biomasses, losses, efficiencies, bioms.pref = TRUE, ef.level = "pred")
+#' val.mat = fluxing(species.level$mat, species.level$biomasses, losses, species.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
 #'make.stability(val.mat, species.level$biomasses, losses, species.level$efficiencies, growth.rates, ef.level = "pred")
 #'
 #' @export
