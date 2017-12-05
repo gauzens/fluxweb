@@ -2,7 +2,7 @@
 % Please edit documentation in R/stability.R
 \name{stability.value}
 \alias{stability.value}
-\title{estimate network stability}
+\title{Estimates network stability}
 \usage{
 stability.value(val.mat, biomasses, losses, efficiencies, growth.rate,
   bioms.prefs = TRUE, bioms.losses = TRUE, ef.level = "prey",
@@ -19,45 +19,44 @@ stability.value(val.mat, biomasses, losses, efficiencies, growth.rate,
 
 \item{growth.rate}{A vector defining growth rate of basal species.}
 
-\item{bioms.prefs}{Logical, if \code{TRUE} (default) preferences are scaled accordingly to species biomasses.}
+\item{bioms.prefs}{Logical, if \code{TRUE} (default) preferences are scaled according to species biomasses.}
 
 \item{bioms.losses}{Logical, if \code{TRUE} (default) losses are scaled with biomass.}
 
 \item{ef.level}{Set to \code{"prey"} if efficiences are defined by prey, \code{"pred"} if they are a property of the predator.}
 
-\item{full.output}{Logical, if \code{TRUE} function return supplementary informations}
+\item{full.output}{Logical, if \code{TRUE} function return supplementary informations.}
 }
 \value{
-maximum eigenvalue of the jacobian matrix of a lotka Voltera like system of equation If \code{full.output}, Jacobian eigenvalues and eigenvectors are returned.
+Maximum eigenvalue of the jacobian matrix of a Lotka Voltera like system of equations. If full.output, Jacobian eigenvalues and eigenvectors are returned.
 }
 \description{
-compute resiliance of the system through jacobian eigenvalues
+Computes resiliance of the system through jacobian eigenvalues.
 }
 \details{
 \itemize{
 
-\item{\code{losses}:} express species energetic losses not related to predation. Usually metabolic or death rates.
+\item{\code{losses}:} Express species energetic losses not related to consumption. Usually metabolic or death rates.
 When an array is provided, losses associated to each species correspond to line sums.
 
 \item{\code{efficiencies}:} Determines how efficient species are to convert energy (see \code{ef.level} for more details).
-Providing an array will assume values depending on both prey and predator identity
+Providing an array will assume values depending on both prey and predator identity.
 
 \item{\code{growth.rate}:} Growth rates of basal species defined in \code{growth.rate} should appear in the same order as in other arguments.
-For example the second value specified in \code{growth.rate} should set the groth rate of the second basal species found in \code{biomasses}. IS THAT CLEAR...
+For example the second value specified in \code{growth.rate} should set the groth rate of the second basal species found in \code{biomasses}.
 
-\item{\code{bioms.pref}:} If \code{TRUE}, preferences \eqn{w_{ij}} of predator j on prey i are scaled accordingly to species biomass unsing the following formula:
+\item{\code{bioms.pref}:} If \code{TRUE}, preferences \eqn{w_{ij}} of predator j on prey i are scaled according to species biomass unsing the following formula:
 \deqn{
 w_{i,j} = \frac{mat[i,j] * biomasses[i]}{\sum_k mat[i,k]* biomasses[k]}
 }
 \item{\code{bioms.losses}:} If \code{TRUE}, function will assume that losses are defined per biomass unit.
 Thus, total losses will be thereafter multiplied by biomass values for each species.
 
-\item{\code{ef.level}:} if \code{"prey"} (resp \code{"pred"}), the total amount of energy that can be metabolised from a trophic link
+\item{\code{ef.level}:} If \code{"prey"} (resp \code{"pred"}), the total amount of energy that can be metabolised from a trophic link
 will be determined by prey (resp pred) identity. \code{"link.specific"} assumes that efficiencies are defined for each trophic interaction
-and ask \code{efficiencies} parameter to be a matrix
+and implies \code{efficiencies} parameter to be a matrix
 
-\item{\code{full.output}:} If \code{TRUE}, function result is a list of eigenvalues and eigenvectors of the jacobian matrix. (return also the jacobian?)
-
+\item{\code{full.output}:} If \code{TRUE}, function result is a list of eigenvalues and eigenvectors of the jacobian matrix.#'
 }
 }
 \examples{

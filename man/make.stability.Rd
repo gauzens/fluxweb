@@ -35,11 +35,11 @@ make.stability(val.mat, biomasses, losses, efficiencies, growth.rate,
 A list from \code{\link[stats]{uniroot}} function.
 }
 \description{
-Find the smallest multiplicator of a variable from losses insuring system stability - !Version under devlopment!
+Find the smallest multiplicator of a variable from losses insuring system stability
 }
 \details{
-The function assume a monotonous increase of stability with multiplicator value. Solution is estimated from the \code{\link[stats]{uniroot}} function, and stability using the \code{\link[fluxweb]{fluxing}} function
-Thus, accordingly to \code{\link[stats]{uniroot}} solving criteria, if stability values at the two extremu parts of the interval are of same sign, an error is raised.
+The function assumes a monotonous increase of stability with multiplicator value. Solution is estimated from the \code{\link[stats]{uniroot}} function, and stability using the \code{\link[fluxweb]{fluxing}} function
+Thus, accordingly to \code{\link[stats]{uniroot}} solving criteria, if stability values at the two extremum parts of the interval are of same sign, an error is raised.
 
 Behavior of the multiplicative term depends on the type of losses:
 \itemize{
@@ -47,9 +47,6 @@ Behavior of the multiplicative term depends on the type of losses:
 \item{\code{losses.scale = NULL} and \code{is.matrix(losses)}:} multiplicator will be independant of any columns from \code{losses}.
 \item{\code{losses.scale = FALSE} :} multiplicator always independant of losses.
 \item{other values:} should refer to an element of losses.
-
-This is an ugly part, but I don't see how to do better right now. Any ideas?
-
 }
 }
 \examples{

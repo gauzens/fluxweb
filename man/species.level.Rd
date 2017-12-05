@@ -2,12 +2,13 @@
 % Please edit documentation in R/species.level.R
 \name{species.level}
 \alias{species.level}
-\title{Food web of a soil network ecosystem and species general informations.}
-\format{: a list of 4 elements:
+\title{Food web of a soil network ecosystem and species general information.}
+\format{a list of 5 elements:
 \describe{
  \item{mat}{the network adjacency matrix}
  \item{biomasses}{species biomasses (g)}
  \item{bodymasses}{species bodyamasses (g)}
+ \item{efficiencies}{species assimilation efficiencies}
  \item{names}{species names}
 }}
 \description{

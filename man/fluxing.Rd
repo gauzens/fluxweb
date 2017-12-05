@@ -12,7 +12,7 @@ fluxing(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TRUE,
 
 \item{biomasses}{Vector of species biomasses.}
 
-\item{losses}{A vector or an array of species energy losses (excluding predation).}
+\item{losses}{A vector or an array of species energy losses (excluding consumption).}
 
 \item{efficiencies}{A vector or an array of conversion efficiencies of species in the adjacency matrix. These values describe the proportion of consumed energy that is converted to biomass of the consumer.}
 
@@ -26,43 +26,43 @@ fluxing(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TRUE,
 Returns an adjacency matrix where entries are the computed energy fluxes between consumer species and their respective resources.
 }
 \description{
-create a valuated graph adjacency matrix from its binary version
+Creates a valuated graph adjacency matrix from its binary version.
 }
 \details{
-This function compute fluxes in food webs based on an equilibrium hypothesis: for each species, sum of ingoing fluxes (gains from predation) balances the sum of outgoing fluxes.
-Outgoing fluxes are defined by predation and \code{losses} argument. Ususally \code{losses} relate to species metabolic rates and/or natural death rates. for each species \code{i}, sum of ingoing fluxes \code{F_i} is computed as:
+This function computes fluxes in food webs based on an equilibrium hypothesis: for each species, sum of ingoing fluxes (gains from predation) balances the sum of outgoing fluxes.
+Outgoing fluxes are defined by consumption and the \code{losses} argument. Ususaly \code{losses} relate to species metabolic rates and/or natural death rates. For each species \code{i}, sum of ingoing fluxes \code{F_i} is computed as:
 \deqn{
 F_{i} = \frac{1}{e_i} (L_i + \sum_j W_{ij}F_j) \quad if \quad \code{ef.level == "pred"}
 }
 \deqn{
 F_{i} = \frac{L_i + \sum_j W_{ij}F_j}{\sum_j W_{ji}e_j} \quad if \quad \code{ef.level == "pred"}
 }
-\code{W} set the matrix of preferences estimated from \code{mat}, accordingly to \code{bioms.prefs}. \code{L} is the vector depicting sum of losses
+\code{W} set the matrix of preferences estimated from \code{mat}, according to \code{bioms.prefs}. \code{L} is the vector depicting sum of losses
 (scaled or not by biomasses, accordingly to \code{bioms.losses}) and \code{e} is the vector of species efficiencies.
 
 
 \itemize{
 \item{\code{mat}:} Either a binary or a valuated matrix can be used. A non zero value for mat[i,j] means that species i is consumed by species j.
-Matrix entries would assess predator preferences on its prey, thus providing a binary matrix assume no preferences.
+Matrix entries would assess predator preferences on its prey, thus providing a binary matrix assumes no preferences.
 
-\item{\code{losses}:} express species energetic losses not related to predation. Usually metabolic or death rates.
+\item{\code{losses}:} Express species energetic losses not related to consumption. Usually metabolic or death rates.
 When an array is provided, losses associated to each species correspond to line sums.
 
 \item{\code{efficiencies}:} Determines how efficient species are to convert energy (see \code{ef.level} for more details).
-Providing an array will assume values depending on both prey and predator identity
+Providing an array will assume values depending on both prey and predator identity.
 
-\item{\code{bioms.pref}:} If \code{TRUE}, preferences \eqn{W_{ij}} of predator j on prey i are scaled accordingly to species biomass unsing the following formula:
+\item{\code{bioms.pref}:} If \code{TRUE}, preferences \eqn{W_{ij}} of predator j on prey i are scaled accordingly to species biomass using the following formula:
 \deqn{
 W_{i,j} = \frac{mat[i,j] * biomasses[i]}{\sum_k mat[i,k]* biomasses[k]}
 }
-If \code{FALSE}, a mormalisation on column values is performed.
+If \code{FALSE}, a normalisation on column values is performed.
 
 \item{\code{bioms.losses}:} Set to true, function will assume that losses are defined per biomass unit.
 Thus, total losses will be thereafter multiplied by biomass values for each species.
 
-\item{\code{ef.level}:} if \code{"prey"} (resp \code{"pred"}), the total amount of energy that can be metabolised from a trophic link
+\item{\code{ef.level}:} If \code{"prey"} (resp \code{"pred"}), the total amount of energy that can be metabolised from a trophic link
 will be determined by prey (resp pred) identity. \code{"link.specific"} assumes that efficiencies are defined for each trophic interaction
-and ask \code{efficiencies} parameter to be a matrix
+and implies \code{efficiencies} parameter to be a matrix.
 
 }
 }

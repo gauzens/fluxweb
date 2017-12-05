@@ -11,22 +11,22 @@ sensitivity(fun.name, param.name, var, n, full.output = FALSE, ...)
 
 \item{param.name}{Parameter from \code{...} on wich variation is applied.}
 
-\item{var}{Define the interval of incertainty for the uniform law around \code{x} as \code{[x - x*var, x + x*var]}.}
+\item{var}{Define the interval of uncertainty for the uniform law around \code{x} as \code{[x - x*var, x + x*var]}.}
 
 \item{n}{Number of replicates.}
 
-\item{full.output}{logical, if \code{TRUE} all of \code{n} estimations of \code{fun.name} are returned. Only their mean otherwise.}
+\item{full.output}{Logical, if \code{TRUE} all of \code{n} estimations of \code{fun.name} are returned. Only their mean otherwise.}
 
 \item{...}{Arguments to be passed to \code{fun.name}. Argument names must exactly match those of fun.name.}
 }
 \value{
-mean coefficient of variation in comparison to non randomised inputs among all the replicates
+Mean coefficient of variation in comparison to non randomised inputs among all the replicates.
 }
 \description{
-Assess how sensitive are results from argument function to variability of input parameter through coefficient of variation.
+Assesses how sensitive the results from argument function are to variability of input parameter through coefficient of variation.
 }
 \details{
-At each replicate, a coefficient of variation is computed (relatively to results obtained form \code{fun.name} without random variation).
+At each replicate, a coefficient of variation is computed (relative to results obtained form \code{fun.name} without random variation).
 if \code{full.output} is \code{FALSE} (default) an object of the same type as the one produced by \code{fun.name} is returned, containing all of variation coefficients.
 If \code{full.output} is \code{TRUE}, a list of size \code{n} with of objects containing variation coeficient is returned.
 

@@ -1,4 +1,4 @@
-#'Food web of a soil network ecosystem and species general informations.
+#'Food web of a soil network ecosystem and species general information.
 #'
 #'This dataset contains the matrix describing trophic interactions from a deutsch soil food-web (reference)
 #'as well as some ecological information on species: biomasses, body masses and and species names.

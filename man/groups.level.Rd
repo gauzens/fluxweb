@@ -2,15 +2,16 @@
 % Please edit documentation in R/groups.level.R
 \name{groups.level}
 \alias{groups.level}
-\title{Aggregated version of the Food web of a soil network ecosystem and species general informations (\code{species.level}).}
-\format{: a list of 4 elements:
+\title{Aggregated version of the Food web of a soil network ecosystem and species general information (\code{species.level}).}
+\format{a list of 5 elements:
 \describe{
  \item{mat}{the network adjacency matrix}
  \item{biomasses}{groups total biomasses (g)}
  \item{bodymasses}{group mean bodyamasses of species (g)}
+ \item{efficiencies}{group species mean assimilation efficiencies}
  \item{species.tgs}{groups' species composition}
 }}
 \description{
-This dataset contains the matrix describing trophic interactions between trophic groups of a deutsch soil food-web (reference)
-as well as some ecological information on These groups: biomasses, body masses and and species composition.
+This dataset contains the matrix describing trophic interactions between trophic groups of a soil food-web (reference)
+as well as some ecological information on these groups: biomasses, body masses and and species composition.
 }
