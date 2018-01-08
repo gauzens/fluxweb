@@ -30,8 +30,8 @@
 #'\item{\code{efficiencies}:} Determines how efficient species are to convert energy (see \code{ef.level} for more details).
 #'Providing an array will assume values depending on both prey and predator identity.
 #'
-#'\item{\code{growth.rate}:} Growth rates of basal species defined in \code{growth.rate} should appear in the same order as in other arguments.
-#'For example the second value specified in \code{growth.rate} should set the groth rate of the second basal species found in \code{biomasses}.
+#'\item{\code{growth.rate}:} Growth rates of basal species defined. Length of the vector should be equal to the number of species. 
+#'expects positive numeric values for index corresponding to basal species, NA otherwise
 #'
 #'\item{\code{bioms.pref}:} If \code{TRUE}, preferences \eqn{w_{ij}} of predator j on prey i are scaled according to species biomass unsing the following formula:
 #'\deqn{
@@ -52,7 +52,8 @@
 #' losses = 0.15 * groups.level$bodymasses^(-0.25)
 #'
 #' # growth rates of basal sppecies
-#' growth.rates = rep(0.5, length(groups.level$biomasses[colSums(groups.level$mat) == 0]))
+#' growth.rates = rep(NA, dim(val.mat)[1])
+#' growth.rates[colSums(groups.level$mat) == 0] = 0.5
 #'
 #' val.mat = fluxing(groups.level$mat, groups.level$biomasses, losses, groups.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
 #' stability.value(val.mat, groups.level$biomasses, losses, groups.level$efficiencies, growth.rates, ef.level = "pred")
@@ -133,10 +134,15 @@ stability.value = function(val.mat,
   }
   if (!is.vector(growth.rate)){
     stop("growth.rate should be a vector")
-  } else if (length(growth.rate) != sum(colSums(val.mat) == 0)){
-    stop("length of growth.rate vector should be equal to the number of primary producer (species with no prey)")
+  } else if (length(growth.rate) != dim(val.mat)[1]){
+    stop("length of growth.rate vector should be equal to the number of species")
   }
-
+  if (sum(growth.rate[which(colSums(val.mat)!=0)]) > 0){
+    warning('some growth rates are defined for non basal species. Values will be ignored')
+  }
+  if (sum(is.na(growth.rate[which(colSums(val.mat)==0)])) < sum(colSums(val.mat) == 0)){
+    stop('growth rates of some basal species are not defined')
+  }
   ### define loss vector as the sum of species losses:
   if (! is.vector(losses)){
     losses = rowSums(losses)
@@ -201,7 +207,8 @@ stability.value = function(val.mat,
 #' losses = 0.15 * groups.level$bodymasses^(-0.25)
 #'
 #' # growth rates of basal sppecies
-#' growth.rates = rep(0.5, length(groups.level$biomasses[colSums(groups.level$mat) == 0]))
+#' growth.rates = rep(NA, dim(val.mat)[1])
+#' growth.rates[colSums(groups.level$mat) == 0] = 0.5
 #'
 #' val.mat = fluxing(groups.level$mat, groups.level$biomasses, losses, groups.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
 #' make.stability(val.mat, groups.level$biomasses, losses, groups.level$efficiencies, growth.rates, ef.level = "pred")
@@ -285,10 +292,16 @@ make.stability = function(val.mat,
   }
   if (!is.vector(growth.rate)){
     stop("growth.rate should be a vector")
-  } else if (length(growth.rate) != sum(colSums(val.mat) == 0)){
-    stop("length of growth.rate vector should be equal to the number of primary producer (species with no prey)")
+  } else if (length(growth.rate) != dim(val.mat)[1]){
+    stop("length of growth.rate vector should be equal to the number of species")
   }
-
+  if (sum(growth.rate[which(colSums(val.mat)!=0)]) > 0){
+    warning('some growth rates are defined for non basal species. Values will be ignored')
+  }
+  if (sum(is.na(growth.rate[which(colSums(val.mat)==0)])) < sum(colSums(val.mat) == 0)){
+    stop('growth rates of some basal species are not defined')
+  }
+  
   # compute losses
   # here, operation is:
   # final.losses = colSums(invariant + value*col), where value is the value to estimate
@@ -365,7 +378,7 @@ create.jacob = function(val.mat, biomasses, losses, efficiencies, growth.rate, b
       for (j in 1: nb_s){
         if (i == j){
           if (i %in% basal.index){ # then species i is basal
-            jacob[i,j] = growth.rate[which(basal.index == i)] - sum(val.mat[i,])/biomasses[i]
+            jacob[i,j] = growth.rate[i] - sum(val.mat[i,])/biomasses[i]
           } else{
             if (ef.level == "pred") {
             jacob[i,j] = -losses[i] + val.mat[i,j] * (efficiencies[i] - 1) / biomasses[i] +
