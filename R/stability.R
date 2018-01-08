@@ -52,7 +52,7 @@
 #' losses = 0.15 * groups.level$bodymasses^(-0.25)
 #'
 #' # growth rates of basal sppecies
-#' growth.rates = rep(NA, dim(val.mat)[1])
+#' growth.rates = rep(NA, dim(groups.level$mat)[1])
 #' growth.rates[colSums(groups.level$mat) == 0] = 0.5
 #'
 #' val.mat = fluxing(groups.level$mat, groups.level$biomasses, losses, groups.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
@@ -129,7 +129,7 @@ stability.value = function(val.mat,
   # growth.rate
   if (! is.numeric(growth.rate)){
     stop("growth.rate should be numeric")
-  } else if (any(growth.rate < 0)){
+  } else if (any(growth.rate[colSums(val.mat) == 0] < 0)){
     stop("all growth.rate values are expected to be positive (or 0)")
   }
   if (!is.vector(growth.rate)){
@@ -137,12 +137,13 @@ stability.value = function(val.mat,
   } else if (length(growth.rate) != dim(val.mat)[1]){
     stop("length of growth.rate vector should be equal to the number of species")
   }
-  if (sum(growth.rate[which(colSums(val.mat)!=0)]) > 0){
+  if (sum(!is.na(growth.rate[colSums(val.mat)!=0])) > 0){
     warning('some growth rates are defined for non basal species. Values will be ignored')
   }
-  if (sum(is.na(growth.rate[which(colSums(val.mat)==0)])) < sum(colSums(val.mat) == 0)){
+  if (sum(is.na(growth.rate[which(colSums(val.mat)==0)])) > 0){
     stop('growth rates of some basal species are not defined')
   }
+  
   ### define loss vector as the sum of species losses:
   if (! is.vector(losses)){
     losses = rowSums(losses)
@@ -207,7 +208,7 @@ stability.value = function(val.mat,
 #' losses = 0.15 * groups.level$bodymasses^(-0.25)
 #'
 #' # growth rates of basal sppecies
-#' growth.rates = rep(NA, dim(val.mat)[1])
+#' growth.rates = rep(NA, dim(groups.level$mat)[1])
 #' growth.rates[colSums(groups.level$mat) == 0] = 0.5
 #'
 #' val.mat = fluxing(groups.level$mat, groups.level$biomasses, losses, groups.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
@@ -287,7 +288,7 @@ make.stability = function(val.mat,
   # growth.rate
   if (! is.numeric(growth.rate)){
     stop("growth.rate should be numeric")
-  } else if (any(growth.rate < 0)){
+  } else if (any(growth.rate[colSums(val.mat) == 0] < 0)){
     stop("all growth.rate values are expected to be positive (or 0)")
   }
   if (!is.vector(growth.rate)){
@@ -295,10 +296,10 @@ make.stability = function(val.mat,
   } else if (length(growth.rate) != dim(val.mat)[1]){
     stop("length of growth.rate vector should be equal to the number of species")
   }
-  if (sum(growth.rate[which(colSums(val.mat)!=0)]) > 0){
+  if (sum(!is.na(growth.rate[colSums(val.mat)!=0])) > 0){
     warning('some growth rates are defined for non basal species. Values will be ignored')
   }
-  if (sum(is.na(growth.rate[which(colSums(val.mat)==0)])) < sum(colSums(val.mat) == 0)){
+  if (sum(is.na(growth.rate[which(colSums(val.mat)==0)])) > 0){
     stop('growth rates of some basal species are not defined')
   }
   
