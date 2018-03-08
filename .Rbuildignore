@@ -3,3 +3,4 @@
 ^\.git$
 ^\.Rhistory
 
+^cran-comments\.md$
