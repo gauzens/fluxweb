@@ -42,8 +42,8 @@ When an array is provided, losses associated to each species correspond to line 
 \item{\code{efficiencies}:} Determines how efficient species are to convert energy (see \code{ef.level} for more details).
 Providing an array will assume values depending on both prey and predator identity.
 
-\item{\code{growth.rate}:} Growth rates of basal species defined in \code{growth.rate} should appear in the same order as in other arguments.
-For example the second value specified in \code{growth.rate} should set the groth rate of the second basal species found in \code{biomasses}.
+\item{\code{growth.rate}:} Growth rates of basal species defined. Length of the vector should be equal to the number of species. 
+expects positive numeric values for index corresponding to basal species, NA otherwise
 
 \item{\code{bioms.pref}:} If \code{TRUE}, preferences \eqn{w_{ij}} of predator j on prey i are scaled according to species biomass unsing the following formula:
 \deqn{
@@ -63,7 +63,8 @@ and implies \code{efficiencies} parameter to be a matrix
 losses = 0.15 * groups.level$bodymasses^(-0.25)
 
 # growth rates of basal sppecies
-growth.rates = rep(0.5, length(groups.level$biomasses[colSums(groups.level$mat) == 0]))
+growth.rates = rep(NA, dim(groups.level$mat)[1])
+growth.rates[colSums(groups.level$mat) == 0] = 0.5
 
 val.mat = fluxing(groups.level$mat, groups.level$biomasses, losses, groups.level$efficiencies, bioms.pref = TRUE, ef.level = "pred")
 stability.value(val.mat, groups.level$biomasses, losses, groups.level$efficiencies, growth.rates, ef.level = "pred")
