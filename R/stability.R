@@ -19,7 +19,7 @@
 #'@details
 #'
 #'
-#For more information about the set of the underlying system of differential equations and mathematical derivation, please read Gauzens et al. 2017 SI2.
+#For more information about the set of the underlying system of differential equations and mathematical derivation, please read Gauzens et al. 2017 SI2. <https://www.biorxiv.org/content/early/2017/12/06/229450>
 #'
 #'
 #'\itemize{
@@ -396,6 +396,7 @@ create.jacob = function(val.mat, biomasses, losses, efficiencies, growth.rate, b
   nb_b = sum(colSums(val.mat) == 0)
   jacob = matrix(0, nb_s, nb_s)
   basal.index = which(colSums(val.mat) == 0) # store the position of basal species in arguments
+  # double loop here... maybe possible to vectorise
     for (i in 1:nb_s){
       for (j in 1: nb_s){
         if (i == j){

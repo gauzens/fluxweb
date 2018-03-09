@@ -57,7 +57,7 @@ val.mat = fluxing(species.level$mat, species.level$biomasses, losses, species.le
 
 
 cvs = c()
-for (var in seq(0, 0.6, 0.05)){
+for (var in seq(0, 0.6, 0.1)){
  cvs = c(cvs, sensitivity(stability.value, "mat", var, 50, 
                           val.mat = val.mat, 
                           biomasses = species.level$biomasses, 
@@ -66,6 +66,6 @@ for (var in seq(0, 0.6, 0.05)){
                           growth.rate = growth.rates))
 }
 
-plot(abs(cvs) ~ seq(0, 0.6, 0.05))
+plot(abs(cvs) ~ seq(0, 0.6, 0.1))
 
 }

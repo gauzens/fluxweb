@@ -133,9 +133,9 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
   ### first arrange mat: apply the biomass scaling of preferences if needed
   ### columns should sum to 1 for predators, 0 to preys
   column.sum = colSums(mat)
-  # in the following, the as.matrix() is needed becaue sometimes mat[, column.sum > 0] is only one column and thanks to R, is automatically cast to a vector
+  # in the following, the as.matrix() is needed becaue sometimes mat[, column.sum > 0] is only one column and, thanks to R, is automatically casted to a vector
   if (bioms.prefs){
-    # 'apply functional' response of preferencs
+    # apply 'functional response' of preferencs
     # mat[, column.sum > 0] = apply(mat[, column.sum > 0], 2, function(vec, bioms) vec*biomasses/sum(vec*biomasses), biomasses) #! in the function I should use bioms instead biomasses
     mat[, column.sum > 0] = apply(as.matrix(mat[, column.sum > 0]), 2, function(vec) vec*biomasses/sum(vec*biomasses)) #! in the function biomasses is already defined more globaly, so no need of another parameter
 
@@ -146,7 +146,6 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
   }
 
   ### define loss vector as the sum of species losses:
-  # need to check data input much more carefully...
   if (! is.vector(losses)){ # this is for allowing user to input a loss matrix (different kinds of physiological loss in the same parameter)
     losses = rowSums(losses)
   }
@@ -156,7 +155,6 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
 
   ### then solving the system
   # warning here: even if efficiencies are defined at the predator level I need a vector of legth = to number of species (with some arbitrary values for basal species)
-  # should be precised somewhere
   if (ef.level == "pred"){
     F = solve(diag(efficiencies) - mat) %*% losses
   }
