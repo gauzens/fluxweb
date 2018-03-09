@@ -19,7 +19,7 @@ make.stability(val.mat, biomasses, losses, efficiencies, growth.rate,
 
 \item{growth.rate}{A vector defining growth rate of basal species.}
 
-\item{losses.scale}{Defines a Column from \code{losses} on which scalar multiplication will be tested. (default \code{NULL} if the value is independant of losses).}
+\item{losses.scale}{Defines a Column from \code{losses} on which scalar multiplication will be tested. (default \code{NULL} if the value is independent of losses).}
 
 \item{bioms.prefs}{Logical, if \code{TRUE} (default) preferences are scaled accordingly to species biomasses.}
 
