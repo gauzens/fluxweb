@@ -8,7 +8,7 @@
 #' @param efficiencies A vector or an array of conversion efficiencies of species in the adjacency matrix. These values describe the proportion of consumed energy that is converted to biomass of the consumer.
 #' @param bioms.prefs Logical - if \code{TRUE}, consumer preferences are scaled according to species biomasses.
 #' @param bioms.losses Logical - if \code{TRUE}, losses are scaled with species biomasses.
-#' @param ef.level Set to \code{"prey"} if efficiences are defined by prey, \code{"pred"} if they are a property of the predator.
+#' @param ef.level Set to \code{"prey"} if efficiencies are defined by prey, \code{"pred"} if they are a property of the predator.
 #'
 #'
 #' @return Returns an adjacency matrix where entries are the computed energy fluxes between consumer species and their respective resources.
@@ -16,7 +16,7 @@
 #'
 #'@details
 #'This function computes fluxes in food webs based on an equilibrium hypothesis: for each species, sum of ingoing fluxes (gains from predation) balances the sum of outgoing fluxes.
-#'Outgoing fluxes are defined by consumption and the \code{losses} argument. Ususaly \code{losses} relate to species metabolic rates and/or natural death rates. For each species \code{i}, sum of ingoing fluxes \code{F_i} is computed as:
+#'Outgoing fluxes are defined by consumption and the \code{losses} argument. Ususally \code{losses} relate to species metabolic rates and/or natural death rates. For each species \code{i}, sum of ingoing fluxes \code{F_i} is computed as:
 #'\deqn{
 #'F_{i} = \frac{1}{e_i} (L_i + \sum_j W_{ij}F_j) \quad if \quad \code{ef.level == "pred"}
 #'}
@@ -46,8 +46,8 @@
 #'\item{\code{bioms.losses}:} Set to true, function will assume that losses are defined per biomass unit.
 #'Thus, total losses will be thereafter multiplied by biomass values for each species.
 #'
-#'\item{\code{ef.level}:} If \code{"prey"} (resp \code{"pred"}), the total amount of energy that can be metabolised from a trophic link
-#'will be determined by prey (resp pred) identity. \code{"link.specific"} assumes that efficiencies are defined for each trophic interaction
+#'\item{\code{ef.level}:} If \code{"prey"} (resp \code{"pred"}), the total amount of energy that can be metabolized from a trophic link
+#'will be determined by prey (resp predator) identity. \code{"link.specific"} assumes that efficiencies are defined for each trophic interaction
 #'and implies \code{efficiencies} parameter to be a matrix.
 #'
 #'}

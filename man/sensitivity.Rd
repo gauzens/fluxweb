@@ -9,7 +9,7 @@ sensitivity(fun.name, param.name, var, n, full.output = FALSE, ...)
 \arguments{
 \item{fun.name}{Function to analyse.}
 
-\item{param.name}{Parameter from \code{...} on wich variation is applied.}
+\item{param.name}{Parameter from \code{...} on which variation is applied.}
 
 \item{var}{Define the interval of uncertainty for the uniform law around \code{x} as \code{[x - x*var, x + x*var]}.}
 
@@ -28,7 +28,7 @@ Assesses how sensitive the results from argument function are to variability of 
 \details{
 At each replicate, a coefficient of variation is computed (relative to results obtained form \code{fun.name} without random variation).
 if \code{full.output} is \code{FALSE} (default) an object of the same type as the one produced by \code{fun.name} is returned, containing all of variation coefficients.
-If \code{full.output} is \code{TRUE}, a list of size \code{n} with of objects containing variation coeficient is returned.
+If \code{full.output} is \code{TRUE}, a list of size \code{n} with of objects containing variation coefficient is returned.
 
 Argument for \code{...} should be passed with their names.
 }

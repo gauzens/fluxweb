@@ -1,6 +1,6 @@
 #' Estimates network stability
 #'
-#' Computes resiliance of the system through jacobian eigenvalues.
+#' Computes resilience of the system through Jacobian matrix eigenvalues.
 #'
 #'
 #' @param val.mat A matrix describing fluxes between species (usually a result of \code{\link[fluxweb]{fluxing}} function).
@@ -10,10 +10,10 @@
 #' @param growth.rate A vector defining growth rate of basal species.
 #' @param bioms.prefs Logical, if \code{TRUE} (default) preferences are scaled according to species biomasses.
 #' @param bioms.losses Logical, if \code{TRUE} (default) losses are scaled with biomass.
-#' @param ef.level Set to \code{"prey"} if efficiences are defined by prey, \code{"pred"} if they are a property of the predator.
+#' @param ef.level Set to \code{"prey"} if efficiencies are defined by prey, \code{"pred"} if they are a property of the predator.
 #' @param full.output Logical, if \code{TRUE} function return supplementary informations.
 #'
-#' @return Maximum eigenvalue of the jacobian matrix of a Lotka Voltera like system of equations. If full.output, Jacobian eigenvalues and eigenvectors are returned.
+#' @return Maximum eigenvalue of the Jacobian matrix of a Lotka Voltera like system of equations. If full.output, Jacobian eigenvalues and eigenvectors are returned.
 #'
 #'
 #'@details
@@ -33,18 +33,18 @@
 #'\item{\code{growth.rate}:} Growth rates of basal species defined. Length of the vector should be equal to the number of species. 
 #'expects positive numeric values for index corresponding to basal species, NA otherwise
 #'
-#'\item{\code{bioms.pref}:} If \code{TRUE}, preferences \eqn{w_{ij}} of predator j on prey i are scaled according to species biomass unsing the following formula:
+#'\item{\code{bioms.pref}:} If \code{TRUE}, preferences \eqn{w_{ij}} of predator j on prey i are scaled according to species biomass using the following formula:
 #'\deqn{
 #'w_{i,j} = \frac{mat[i,j] * biomasses[i]}{\sum_k mat[i,k]* biomasses[k]}
 #'}
 #'\item{\code{bioms.losses}:} If \code{TRUE}, function will assume that losses are defined per biomass unit.
 #'Thus, total losses will be thereafter multiplied by biomass values for each species.
 #'
-#'\item{\code{ef.level}:} If \code{"prey"} (resp \code{"pred"}), the total amount of energy that can be metabolised from a trophic link
+#'\item{\code{ef.level}:} If \code{"prey"} (resp \code{"pred"}), the total amount of energy that can be metabolized from a trophic link
 #'will be determined by prey (resp pred) identity. \code{"link.specific"} assumes that efficiencies are defined for each trophic interaction
 #'and implies \code{efficiencies} parameter to be a matrix
 #'
-#'\item{\code{full.output}:} If \code{TRUE}, function result is a list of eigenvalues and eigenvectors of the jacobian matrix.#'
+#'\item{\code{full.output}:} If \code{TRUE}, function result is a list of eigenvalues and eigenvectors of the Jacobian matrix.
 #'}
 #'
 #' @examples
@@ -69,7 +69,7 @@
 #'                 growth.rates, 
 #'                 ef.level = "pred")
 #'
-#' @author Benoit gauzens, \email{benoit.gauzens@gmail.com}
+#' @author Benoit Gauzens, \email{benoit.gauzens@gmail.com}
 #'
 #' @export
 
@@ -113,7 +113,7 @@ stability.value = function(val.mat,
     stop("'losses' contain negative value(s)")
   }
 
-  # efficiences
+  # efficiencies
   if (! is.numeric(efficiencies)){
     stop("'efficiencies' must be numeric")
     if (!(any(efficiencies < 0) || any(efficiencies > 1))) {
@@ -170,7 +170,7 @@ stability.value = function(val.mat,
 
   # return(eigen(jacob))
   if (full.output){
-    # should also return the jacobian
+    # should also return the Jacobian
     return(eigen(jacob))
   } else{
     return(max(Re(eigen(jacob)$values)))
@@ -180,17 +180,17 @@ stability.value = function(val.mat,
 
 #' making network stability
 #'
-#' Find the smallest multiplicator of a variable from losses insuring system stability
+#' Find the smallest scalar multiplying a variable from losses insuring system stability
 #'
 #' @param val.mat A matrix describing fluxes between species (usually a result of \code{\link[fluxweb]{fluxing}} function).
 #' @param biomasses A vector of species biomasses.
 #' @param losses A vector or an array of species energy losses (excluding predation).
 #' @param efficiencies A vector or an array of conversion efficiencies of species in the adjacency matrix. These values describe the proportion of consumed energy that is converted to biomass of the consumer.
 #' @param growth.rate A vector defining growth rate of basal species.
-#' @param losses.scale Defines a Column from \code{losses} mulitplicator value will apply to. (default \code{NULL} if multiplicator independant of losses).
+#' @param losses.scale Defines a Column from \code{losses} on which scalar multiplication will be tested. (default \code{NULL} if the value is independant of losses).
 #' @param bioms.prefs Logical, if \code{TRUE} (default) preferences are scaled accordingly to species biomasses.
 #' @param bioms.losses Logical, if \code{TRUE} (default) losses are scaled with biomass.
-#' @param ef.level Set to \code{"prey"} if efficiences are defined by prey, \code{"pred"} if they are a property of the predator.
+#' @param ef.level Set to \code{"prey"} if efficiencies are defined by prey, \code{"pred"} if they are a property of the predator.
 #' @param interval Search interval for returned value.
 #' @param ... Optional parameters for function \code{\link[stats]{uniroot}}
 #'
@@ -285,7 +285,7 @@ make.stability = function(val.mat,
     stop("'losses' contain negative value(s)")
   }
 
-  # efficiences
+  # efficiencies
   if (! is.numeric(efficiencies)){
     stop("'efficiencies' must be numeric")
     if (!(any(efficiencies < 0) || any(efficiencies > 1))) {
@@ -384,7 +384,7 @@ make.stability = function(val.mat,
 }
 
 
-#' Internal function to compute jacobian
+#' Internal function to compute Jacobian
 #'
 #'@keywords internal
 #'

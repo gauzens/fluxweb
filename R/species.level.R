@@ -7,7 +7,7 @@
 #'\describe{
 #'  \item{mat}{the network adjacency matrix}
 #'  \item{biomasses}{species biomasses (g)}
-#'  \item{bodymasses}{species bodyamasses (g)}
+#'  \item{bodymasses}{species bodymasses (g)}
 #'  \item{efficiencies}{species assimilation efficiencies}
 #'  \item{names}{species names}
 #'}

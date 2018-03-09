@@ -2,12 +2,12 @@
 % Please edit documentation in R/stability.R
 \name{create.jacob}
 \alias{create.jacob}
-\title{Internal function to compute jacobian}
+\title{Internal function to compute Jacobian}
 \usage{
 create.jacob(val.mat, biomasses, losses, efficiencies, growth.rate,
   bioms.prefs = TRUE, bioms.losses = TRUE, ef.level = "prey")
 }
 \description{
-Internal function to compute jacobian
+Internal function to compute Jacobian
 }
 \keyword{internal}

@@ -19,13 +19,13 @@ make.stability(val.mat, biomasses, losses, efficiencies, growth.rate,
 
 \item{growth.rate}{A vector defining growth rate of basal species.}
 
-\item{losses.scale}{Defines a Column from \code{losses} mulitplicator value will apply to. (default \code{NULL} if multiplicator independant of losses).}
+\item{losses.scale}{Defines a Column from \code{losses} on which scalar multiplication will be tested. (default \code{NULL} if the value is independant of losses).}
 
 \item{bioms.prefs}{Logical, if \code{TRUE} (default) preferences are scaled accordingly to species biomasses.}
 
 \item{bioms.losses}{Logical, if \code{TRUE} (default) losses are scaled with biomass.}
 
-\item{ef.level}{Set to \code{"prey"} if efficiences are defined by prey, \code{"pred"} if they are a property of the predator.}
+\item{ef.level}{Set to \code{"prey"} if efficiencies are defined by prey, \code{"pred"} if they are a property of the predator.}
 
 \item{interval}{Search interval for returned value.}
 
@@ -35,7 +35,7 @@ make.stability(val.mat, biomasses, losses, efficiencies, growth.rate,
 A list from \code{\link[stats]{uniroot}} function.
 }
 \description{
-Find the smallest multiplicator of a variable from losses insuring system stability
+Find the smallest scalar multiplying a variable from losses insuring system stability
 }
 \details{
 The function assumes a monotonous increase of stability with multiplicator value. Solution is estimated from the \code{\link[stats]{uniroot}} function, and stability using the \code{\link[fluxweb]{fluxing}} function

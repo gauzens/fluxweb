@@ -4,7 +4,7 @@
 #'
 #' @param fun.name Function to analyse.
 #' @param ... Arguments to be passed to \code{fun.name}. Argument names must exactly match those of fun.name.
-#' @param param.name Parameter from \code{...} on wich variation is applied.
+#' @param param.name Parameter from \code{...} on which variation is applied.
 #' @param var Define the interval of uncertainty for the uniform law around \code{x} as \code{[x - x*var, x + x*var]}.
 #' @param n Number of replicates.
 #' @param full.output Logical, if \code{TRUE} all of \code{n} estimations of \code{fun.name} are returned. Only their mean otherwise.
@@ -15,7 +15,7 @@
 #'
 #' At each replicate, a coefficient of variation is computed (relative to results obtained form \code{fun.name} without random variation).
 #' if \code{full.output} is \code{FALSE} (default) an object of the same type as the one produced by \code{fun.name} is returned, containing all of variation coefficients.
-#' If \code{full.output} is \code{TRUE}, a list of size \code{n} with of objects containing variation coeficient is returned.
+#' If \code{full.output} is \code{TRUE}, a list of size \code{n} with of objects containing variation coefficient is returned.
 #'
 #' Argument for \code{...} should be passed with their names.
 #' 

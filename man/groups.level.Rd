@@ -7,7 +7,7 @@
 \describe{
  \item{mat}{the network adjacency matrix}
  \item{biomasses}{groups total biomasses (g)}
- \item{bodymasses}{group mean bodyamasses of species (g)}
+ \item{bodymasses}{group mean bodymasses of species (g)}
  \item{efficiencies}{group species mean assimilation efficiencies}
  \item{species.tgs}{groups' species composition}
 }}
