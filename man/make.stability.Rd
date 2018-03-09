@@ -38,14 +38,14 @@ A list from \code{\link[stats]{uniroot}} function.
 Find the smallest scalar multiplying a variable from losses insuring system stability
 }
 \details{
-The function assumes a monotonous increase of stability with multiplicator value. Solution is estimated from the \code{\link[stats]{uniroot}} function, and stability using the \code{\link[fluxweb]{fluxing}} function
+The function assumes a monotonous increase of stability with multiplication by a scalar value. Solution is estimated from the \code{\link[stats]{uniroot}} function, and stability using the \code{\link[fluxweb]{fluxing}} function
 Thus, accordingly to \code{\link[stats]{uniroot}} solving criteria, if stability values at the two extremum parts of the interval are of same sign, an error is raised.
 
 Behavior of the multiplicative term depends on the type of losses:
 \itemize{
-\item{\code{losses.scale = NULL} and \code{is.vector(losses)}:} multiplicator will be applied to the \code{losses} vector.
-\item{\code{losses.scale = NULL} and \code{is.matrix(losses)}:} multiplicator will be independant of any columns from \code{losses}.
-\item{\code{losses.scale = FALSE} :} multiplicator always independant of losses.
+\item{\code{losses.scale = NULL} and \code{is.vector(losses)}:} multiplication will be applied to the \code{losses} vector.
+\item{\code{losses.scale = NULL} and \code{is.matrix(losses)}:} multiplication will be independent of any columns from \code{losses}.
+\item{\code{losses.scale = FALSE} :} value used for multiplication always independent of losses.
 \item{other values:} should refer to an element of losses.
 }
 }

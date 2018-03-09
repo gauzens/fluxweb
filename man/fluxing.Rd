@@ -30,7 +30,7 @@ Creates a valuated graph adjacency matrix from its binary version.
 }
 \details{
 This function computes fluxes in food webs based on an equilibrium hypothesis: for each species, sum of ingoing fluxes (gains from predation) balances the sum of outgoing fluxes.
-Outgoing fluxes are defined by consumption and the \code{losses} argument. Ususally \code{losses} relate to species metabolic rates and/or natural death rates. For each species \code{i}, sum of ingoing fluxes \code{F_i} is computed as:
+Outgoing fluxes are defined by consumption and the \code{losses} argument. Usually \code{losses} relate to species metabolic rates and/or natural death rates. For each species \code{i}, sum of ingoing fluxes \code{F_i} is computed as:
 \deqn{
 F_{i} = \frac{1}{e_i} (L_i + \sum_j W_{ij}F_j) \quad if \quad \code{ef.level == "pred"}
 }
