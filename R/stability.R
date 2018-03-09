@@ -187,7 +187,7 @@ stability.value = function(val.mat,
 #' @param losses A vector or an array of species energy losses (excluding predation).
 #' @param efficiencies A vector or an array of conversion efficiencies of species in the adjacency matrix. These values describe the proportion of consumed energy that is converted to biomass of the consumer.
 #' @param growth.rate A vector defining growth rate of basal species.
-#' @param losses.scale Defines a Column from \code{losses} on which scalar multiplication will be tested. (default \code{NULL} if the value is independant of losses).
+#' @param losses.scale Defines a Column from \code{losses} on which scalar multiplication will be tested. (default \code{NULL} if the value is independent of losses).
 #' @param bioms.prefs Logical, if \code{TRUE} (default) preferences are scaled accordingly to species biomasses.
 #' @param bioms.losses Logical, if \code{TRUE} (default) losses are scaled with biomass.
 #' @param ef.level Set to \code{"prey"} if efficiencies are defined by prey, \code{"pred"} if they are a property of the predator.
