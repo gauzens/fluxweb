@@ -4,7 +4,7 @@ Title: Estimate Energy Fluxes in Food Webs
 Version: 0.1.0
 Author: Benoit Gauzens 
 Maintainer: Benoit Gauzens <benoit.gauzens@gmail.com>
-Description: compute energy fluxes in trophic networks, from resources to their consumers, and can be applied to systems ranging from simple two-species interactions to highly complex food webs. It implements the approach described in Gauzens et al. (2017) <doi:10.1101/229450> to calculate energy fluxes, which are also used to calculate equilibrium stability.
+Description: Compute energy fluxes in trophic networks, from resources to their consumers, and can be applied to systems ranging from simple two-species interactions to highly complex food webs. It implements the approach described in Gauzens et al. (2017) <doi:10.1101/229450> to calculate energy fluxes, which are also used to calculate equilibrium stability.
 License: GPL (>=2.0)
 Depends: stats
 URL: https://www.biorxiv.org/content/early/2017/12/06/229450
