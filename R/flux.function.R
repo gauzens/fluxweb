@@ -72,7 +72,7 @@
 
 
 fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TRUE, bioms.losses = TRUE, ef.level = "prey"){
-
+  
   # mat
   if (! is.numeric(mat)){
     stop("'mat' must be numeric")
@@ -80,7 +80,7 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
   if (dim(mat)[1] != dim(mat)[2]){
     stop("mat should be a square matrix")
   }
-
+  
   # biomasses
   if (!is.null(biomasses)){
     if (! is.vector(biomasses)){
@@ -98,30 +98,47 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
   } else if (bioms.prefs){
     stop("bioms.prefs set to TRUE but no biomasses provided")
   }
-
+  
   # losses
   if (! is.numeric(losses)){
     stop("'losses' should be numeric")
   } else if (any(losses < 0)){
     stop("'losses' contain negative value(s)")
   }
-
+  
   # efficiences
   if (! is.numeric(efficiencies)){
     stop("'efficiencies' must be numeric")
-    if (!(any(efficiencies < 0) || any(efficiencies > 1))) {
-      stop("'efficiencies' must be all in interval [0,1]")
-    }
-
-    if (is.vector(efficiencies)){
-      if (length(efficiencies) != dim(mat)[1]){
-        stop("'efficiencies' vector length sould be equal to number of species (dimension of mat)")
-      }
-    } else if (dim(efficiencies != dim(mat))){
-      stop("'efficiencies' matrix dimension different from 'mat'")
+  }
+  
+  
+  if (ef.level == 'pred'){
+    colsums = colsums(mat)
+    # here as efficiencies are determined accordingly to predators, efficiencies of basal species
+    # might be NA. In such case, define them to one (assume that they feed on a nutrient node with an efficiency of 1)
+    if (sum(is.na(efficiencies[colsums == 0])) > 0){
+      efficiencies[colsums == 0] = 1
     }
   }
-
+  
+  if (ef.level == 'prey'){
+    rowsums = rowSums(mat)
+    # other way: top predators might have NA for efficiencies
+    # In such case, define them to one (value not important as it will only be multiplied by 0)
+    if (sum(is.na(efficiencies[rowsums == 0])) > 0){
+      efficiencies[rowsums == 0] = 1
+    }
+  }
+  if (ef.level == 'link.specific'){
+    
+    # other way: top predators might have NA for efficiencies
+    # In such case, define them to one (value not important as it will only be multiplied by 0)
+    if (sum(efficiencies[mat ==0 ]) > 0){
+      warning("Efficiencies of some non existing links are not 0")
+      
+    }
+  }
+  
   if (!(ef.level %in% c('prey', 'pred', 'link.specific'))){
     stop("ef.level should be set to 'pred', 'prey' or 'link.specific'")
   }
@@ -129,7 +146,23 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
     warning("'ef.level' is set to 'prey' and expect a vector of efficiencies but get a matrix instead.\n ef.level was then set to 'link.specific'")
     ef.level = 'link.specific'
   }
-
+  
+  
+  if (any(efficiencies < 0) || any(efficiencies > 1)) {
+    stop("'efficiencies' must all be in interval [0,1]")
+  }
+  
+  if (is.vector(efficiencies)){
+    if (ef.level == 'link.specific'){
+      stop("'efficiencies' should be a matrix not a vector when efficiencies are link specific")
+    }
+    if (length(efficiencies) != dim(mat)[1]){
+      stop("'efficiencies' vector length sould be equal to number of species (dimension of mat)")
+    }
+  } else if (dim(efficiencies != dim(mat))){
+    stop("'efficiencies' matrix dimension different from 'mat'")
+  }
+  
   ### first arrange mat: apply the biomass scaling of preferences if needed
   ### columns should sum to 1 for predators, 0 to preys
   column.sum = colSums(mat)
@@ -138,13 +171,12 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
     # apply 'functional response' of preferencs
     # mat[, column.sum > 0] = apply(mat[, column.sum > 0], 2, function(vec, bioms) vec*biomasses/sum(vec*biomasses), biomasses) #! in the function I should use bioms instead biomasses
     mat[, column.sum > 0] = apply(as.matrix(mat[, column.sum > 0]), 2, function(vec) vec*biomasses/sum(vec*biomasses)) #! in the function biomasses is already defined more globaly, so no need of another parameter
-
-      } else { # here optimise with else if not all element of colsums are equal to either 1 or 0...
+    
+  } else{
     # sum of entries have to sum to one for each predator (normalisaton of preferences)
-    colomn.sum = colSums(mat)
-    mat[, colomn.sum>0] = sweep(apply(as.matrix(mat[, colomn.sum>0])), 2, colomn.sum[colomn.sum>0], "/")
+    mat[, column.sum>0] = sweep(as.matrix(mat[, column.sum>0]), 2,column.sum[column.sum>0],  '/')
   }
-
+  
   ### define loss vector as the sum of species losses:
   if (! is.vector(losses)){ # this is for allowing user to input a loss matrix (different kinds of physiological loss in the same parameter)
     losses = rowSums(losses)
@@ -152,7 +184,7 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
   if (bioms.losses == T){
     losses = losses*biomasses
   }
-
+  
   ### then solving the system
   # warning here: even if efficiencies are defined at the predator level I need a vector of legth = to number of species (with some arbitrary values for basal species)
   if (ef.level == "pred"){
@@ -180,5 +212,4 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
   flux.mat = sweep(mat, 2, F, "*")
   return(flux.mat)
 }
-
 
