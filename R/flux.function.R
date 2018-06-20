@@ -113,7 +113,7 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
   
   
   if (ef.level == 'pred'){
-    colsums = colsums(mat)
+    colsums = colSums(mat)
     # here as efficiencies are determined accordingly to predators, efficiencies of basal species
     # might be NA. In such case, define them to one (assume that they feed on a nutrient node with an efficiency of 1)
     if (sum(is.na(efficiencies[colsums == 0])) > 0){
