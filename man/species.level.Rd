@@ -12,6 +12,6 @@
  \item{names}{species names}
 }}
 \description{
-This dataset contains the matrix describing trophic interactions from a deutsch soil food-web (reference)
+This dataset contains the matrix describing trophic interactions from a deutsch soil food-web (Digel et al. 2014, Oikos)
 as well as some ecological information on species: biomasses, body masses and and species names.
 }

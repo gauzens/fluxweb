@@ -12,6 +12,6 @@
  \item{species.tgs}{groups' species composition}
 }}
 \description{
-This dataset contains the matrix describing trophic interactions between trophic groups of a soil food-web (reference)
+This dataset contains the matrix describing trophic interactions between trophic groups of a soil food-web (Digel et al. 2014, Oikos)
 as well as some ecological information on these groups: biomasses, body masses and and species composition.
 }
