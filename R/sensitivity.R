@@ -9,13 +9,17 @@
 #' @param n Number of replicates.
 #' @param full.output Logical, if \code{TRUE} all of \code{n} estimations of \code{fun.name} are returned. Only their mean otherwise.
 #'
-#' @return Mean coefficient of variation in comparison to non randomised inputs among all the replicates.
+#' @return a list of two elements of the same type as \code{param.name}: 
+#' first element contains the mean coefficient of variation in comparison to non randomised inputs among all the replicates, 
+#' second element contains the standard deviation of these coefficient of variation
 #'
 #' @details
 #'
 #' At each replicate, a coefficient of variation is computed (relative to results obtained form \code{fun.name} without random variation).
-#' if \code{full.output} is \code{FALSE} (default) an object of the same type as the one produced by \code{fun.name} is returned, containing all of variation coefficients.
-#' If \code{full.output} is \code{TRUE}, a list of size \code{n} with of objects containing variation coefficient is returned.
+#' if \code{full.output} is \code{FALSE} (default) a list of two objects of the same type as the one produced by \code{fun.name} is returned, 
+#' first element contains the mean coefficient of variation in comparison to non randomised inputs among all the replicates, 
+#' second element contains the standard deviation of these coefficients of variation
+#' If \code{full.output} is \code{TRUE}, a list of size \code{n} with of objects containing the coefficients of variation  is returned.
 #'
 #' Argument for \code{...} should be passed with their names.
 #' 
@@ -77,7 +81,11 @@ sensitivity = function(fun.name, param.name, var, n, full.output = FALSE, ...){
     }
   }
   vec.cv = rep(NA, n)
-  simple.res = 0
+  
+  # two scalars containing the mean coefficient of variation and the sd
+  # mean and sd are calculated from the distribution of n replicates.
+  simple.res.mean = 0
+  simple.res.sd = 0
   # store the initial value of the parameter to change
   param = args[[param.name]]
   for (i in 1:n){
@@ -106,7 +114,7 @@ sensitivity = function(fun.name, param.name, var, n, full.output = FALSE, ...){
     neutral.res[neutral.res == 0] = NA
     # then, for this draw, departure is the coefficient of variation (base = results without random variation)
     # for matrix or vector, I take the mean value of all cv
-    res.cv = abs((res - res.init)/neutral.res)
+    res.cv = (res - res.init)/neutral.res
 
 
     if (full.output){
@@ -117,13 +125,14 @@ sensitivity = function(fun.name, param.name, var, n, full.output = FALSE, ...){
       }
     }
     #  sensitivity value is then the means of the coefficient of variation
-    simple.res = simple.res + res.cv/n
-
+    simple.res.mean = simple.res.mean + res.cv/n
+    simple.res.sd = simple.res.sd + res.cv*res.cv
   }
+  simple.res.sd = sqrt(simple.res.sd/n - simple.res.mean * simple.res.mean)
   if (full.output){
     return(res.output)
   }else{
-    return(simple.res)
+    return(list(simple.res.mean, simple.res.sd))
   }
 
 }
