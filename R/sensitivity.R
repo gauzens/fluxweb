@@ -78,24 +78,26 @@ sensitivity = function(fun.name, param.name, var, n, full.output = FALSE, ...){
   }
   vec.cv = rep(NA, n)
   simple.res = 0
+  # store the initial value of the parameter to change
+  param = args[[param.name]]
   for (i in 1:n){
-
     ## first, modification of the focal parameter
     if (is.matrix(args[[param.name]])){
-      param = args[[param.name]]
+      # param = args[[param.name]]
       # fill deviation matrix with uniform distribution in [-var, var]
       deviation = matrix(stats::runif(dim(param)[1]*dim(param)[1], min = 1 - var, max = 1 + var), dim(param)[1], dim(param)[1])
       # output = initial value * deviation
-      args[[param.name]] = args[[param.name]] * (deviation)
+      args[[param.name]] = param * (deviation)
     }
 
     if (is.vector(args[[param.name]])){ # scalars are also vectors...
-      param = args[[param.name]]
+      # param = args[[param.name]]
       # fill deviation vector with uniform distribution in [-var, var]
       deviation = stats::runif(length(param), min = 1 - var, max = 1 + var)
+      # print(deviation)
       # output = initial value * deviation
-      args[[param.name]] = args[[param.name]] * (deviation)
-      # print(args[[param.name]])
+      args[[param.name]] = param * (deviation)
+      # print(rbind(param, deviation, args[[param.name]]))
     }
 
     ## then call to the function
