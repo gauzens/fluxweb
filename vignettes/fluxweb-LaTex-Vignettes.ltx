@@ -1,0 +1,227 @@
+%\VignetteIndexEntry{fluxweb package: LaTeX vignettes}
+%\VignetteEngine{R.rsp::tex}
+%\VignetteIndexEntry{fluxweb: easily estimate energy fluxes in food webs with R}
+%\VignetteKeyword{R}
+%\VignetteKeyword{package}
+%\VignetteKeyword{vignette}
+%\VignetteKeyword{LaTeX}
+\documentclass[12pt,a4paper]{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{pgfplots}
+%\usepackage[margin=1in]{geometry} %permet de redéfinir les marges
+\usepackage{verbatim}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\newcolumntype{x}{>{\Centering}X}
+\usepackage{authblk}
+\usepackage{hyperref}
+\usepackage{lineno}
+\usepackage{setspace}
+\usepackage{listings}
+
+%\usepackage[style=authoryear]{biblatex}
+
+%\doublespacing
+\title{\textit{fluxweb}: easily estimate energy fluxes in food webs with R}
+\author[1,2]{Benoit Gauzens}
+\author[1,3,4]{Andrew Barnes}
+\author[1,2,5]{Darren Giling}
+\author[1,5]{Jes Hines}
+\author[6]{Malte Jochum}
+\author[7]{Jonathan S. Lefcheck} 
+\author[1,2]{Benjamin Rosenbaum}
+\author[1,2,8]{Shaopeng Wang}			
+\author[1,2]{Ulrich Brose}
+
+\affil[1]{German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig, Deutscher Platz 5e, 04103 Leipzig, Germany}
+\affil[2]{Institute of Biodiversity, University of Jena, Dornburger Str. 159, 07743 Jena, Germany}
+\affil[3]{School of Science, University of Waikato, Private Bag 3105, Hamilton 3204, New Zealand }
+\affil[4]{Institute of Landscape Ecology, University of M{\"u}nster, Heisenbergstrasse 2, 48149 Münster, Germany}
+\affil[5]{Institute of Biology, Leipzig University, Johannisallee 21, 04103 Leipzig, Germany}
+\affil[6]{Institute of Plant Sciences, University of Bern, Altenbergrain 21, 3013 Bern, Switzerland}
+\affil[7]{Bigelow Laboratory for Ocean Sciences, East Boothbay, Maine}
+\affil[8]{Institute of Ecology, College of Urban and Environmental Science, Peking University, Beijing 100871, China}
+
+\renewcommand\Affilfont{\footnotesize}
+
+\begin{document}
+\lstset{language=R, 
+keywordstyle=\color{blue}, 
+alsoletter={.},
+stringstyle=\color{OliveGreen},
+showstringspaces=false,
+frame=lines,
+otherkeywords={^, *, ==, NA},
+commentstyle=\color{orange}}
+
+\lstset{literate=%
+    {0}{{{\color{red}0}}}1
+    {1}{{{\color{red}1}}}1
+    {2}{{{\color{red}2}}}1
+    {3}{{{\color{red}3}}}1
+    {4}{{{\color{red}4}}}1
+    {5}{{{\color{red}5}}}1
+    {6}{{{\color{red}6}}}1
+    {7}{{{\color{red}7}}}1
+    {8}{{{\color{red}8}}}1
+    {9}{{{\color{red}9}}}1
+}
+
+\maketitle
+
+
+
+As a very simple example how to convert community data into quantitative fluxes, we propose here guidelines for experimental ecologists who want to use \textit{fluxweb} with the hypothesis of the metabolic theoryof ecology. 
+
+\subsection{Preparing the data}
+
+Using \textit{fluxweb} will require the following data: 
+\begin{itemize}
+\item a matrix defining the set of \textbf{trophic interactions} between each species pairs of the ecological system considered (thereafter called \textit{food.web}).
+\item A vector with the average \textbf{body masses} of species (in g, thereafter called \textit{bodymasses}).
+\item A vector with the total \textbf{biomass} of each population (in g, thereafter called \textit{biomasses}).
+\item A vector with the \textbf{organism type} (i.e. plant, animal or detritus) of each species (thereafter called \textit{org.types}).
+\end{itemize}
+Then, a vector of \textbf{metabolic types} (as defined in table \ref{metrate}) of each species (thereafter called \textit{met.types} is not mandatory to calculate fluxes but is a set of informations easily accessible that can increase the precision of metabolic rate estimations.\\
+
+All of these informations will allow to define the mandatory arguments needed to calculate the fluxes: the food web (the matrix \textit{food.web}), the physiological losses (vector \textit{losses}), and the efficiencies (vector \textit{efficiencies}). \\
+
+\paragraph{\textit{food.web}} Information about the \textbf{food web} is the first parameter required by the fluxing function. It should be a matrix (thereafter called \verb|mat|) of $n$ rows and $n$ columns, where $n$ is the total number of species involved in the study. The order of species should be identical between rows and columns. A non-zero value at the intersection of line $i$ and column $j$ in the food web matrix means that predator $j$ consumes prey $i$. The values used to fill this matrix can be either binary ($0/1$) assuming that predators' foraging preferences on their prey are unknown, or real values, defining these foraging preferences. \\
+
+\paragraph{\textit{losses}} The \textbf{losses} parameter will be defined in this context as metabolic rates. They are calculated using the species body masses. This calculation can be achieved using eq. \ref{MTE}. It is possible to define the parameters of this equation depending on species \textbf{metabolic types} (see table \ref{metrate} or \cite{Ehnes2011}), or to use an average value. In the case of an average value, the per unit of biomass (i.e. g) metabolic rate $X$ is:
+\begin{equation*}
+X = 0.71M^{-0.25},
+\end{equation*}
+where $M$ is the body mass of the species. Then, the corresponding R line of code is:
+
+\begin{lstlisting}
+losses = 0.71 * bodymasses^(-0.25)
+\end{lstlisting}
+
+It is possible to obtain a more precise estimation of species metabolic rates, considering the parameters of tbale \ref{metrate} defined for each entries of the vector \textit{met.types}. Then, the definition of the vector \textit{losses} containing species' metabolic rates can be achieve with:\\
+
+\begin{lstlisting}
+# first, create an empty vector where length is equal to
+# the number of species in the food web (nb.species)
+losses = rep(NA, nb.species)
+# then define values associated to the different metabolic types,
+# using species' body mass (stored in the vector body.masses)
+ecto.vert = met.types == 'Ectotherm vertebrates'
+endo.vert = met.types == 'Endotherm vertebrates'
+inv = met.types == 'Invertebrates'
+losses[ecto.vert] = 18.18 * bodymasses[ecto.vert]^(-0.29)
+losses[endo.vert] = 19.5 * bodymasses[endo.vert]^(-0.29)
+losses[inv] = 18.18 * body.masses[inv]^(-0.29)
+\end{lstlisting}
+
+It is important to note that the use calculation of metabolic rates using the equations from the metabolic theory of ecology (\ref{MTE}) lead to values were units are per-gram of biomass, they do not correspond to the total energetic losses of the entire populations. It is quite common in food webs to have nodes such as 'detritus' or 'dissolved organic matter'. Values for the metabolic rates of such nodes can be set to \verb|NA| if they are basal and zero in any case.\\
+
+\input{table3.tex}
+
+\paragraph{\textit{efficiencies}} The the last parameter needed to estimate fluxes is the vector of feeding \textbf{efficiencies}. Because species' physiological losses were estimated using metabolic rates, assimilation efficiencies should be used (assimilation efficiency defines the proportion of eaten biomass that can be use for biomass production plus metabolism \cite{Lang2017}). These efficiencies can be defined using basic information on organism types. Indeed, the efficiency with which a predator will assimilate energy from a prey can be defined by the type of prey eaten. 
+Considering a vector \textit{org.type} defining the organism types of food web nodes as 'animal', 'plant' or 'detritus', efficiencies values for these three categories are respectively $0.806$, $0.545$ and $0.106$ \cite{Lang2017}. The vector of \textit{efficiencies} can be created like:\\
+
+\begin{lstlisting}
+# first, create an empty vector where length is equal to
+# the number of species in the food web (nb.species)
+efficiencies = rep(NA, nb.species)
+# then define values associated to organisms types
+efficiencies[org.type == 'animal'] = 0.806
+efficiencies[org.type == 'plant'] = 0.545
+efficiencies[ org.type == 'detritus'] = 0.106
+\end{lstlisting}  
+
+
+
+%This is why the information about the total \textbf{biomass} of species should be estimated during sampling. Indeed, the fluxing function will internally compute the total metabolic rate of the species with a multiplication of per gram metabolic rate $Y$ and the total biomass (in $g$) of the species considered. It is quite common in food webs to have nodes such as 'detritus' or 'dissolved organic matter'. Values for the metabolic rates of such nodes can be set to \verb|NA| if they are basal and zero in any case. After this point, users should thus create a vector containing information on species per gram metabolic rate (\verb|met.rate|) and biomass (\verb|biomasses|). The ordering of the species in these vectors be similar to the one used for the food web matrix.\\
+
+
+
+
+\section{Calculating fluxes}
+
+Once the data set is prepared as described above, the calculation of fluxes is straightforward. It is simply achieve using the fluxing function:\\
+\begin{lstlisting}
+mat.fluxes = fluxing(mat, biomasses, losses, efficiencies)
+\end{lstlisting} 
+
+where \textit{mat.fluxes} is a matrix containing the fluxes between each species pairs. At this point it is important to realize that we used the default behaviour of the \textit{fluxing} function and that several options are hidden so far. Indeed, we use the default values of the optional arguments: 
+\begin{itemize}
+\item \textit{bioms.pref = TRUE} will scale the species diet preferences (i.e. the values from the food web matrix \textit{mat}) to the biomasses of their prey, accordingly to this equation:
+\begin{equation}
+W_{i,j} = \frac{mat[i,j] * biomasses[i]}{\sum_k mat[i,k]* biomasses[k]}
+\end{equation} 
+where $W_{i,j}$ is the scaled preference of predator $j$ on prey $i$
+\item \textit{bioms.losses = TRUE} will calculate the total losses of species as the product of the term by term product of the vectors \textit{losses} and \textit{biomasses}. Thus, setting this option to TRUE correspond to a dataset where species' metabolic losses where defined per unit of biomass. If species losses where directly measured at the population scale (using some respiration measurement for example), this parameter should be set to FALSE.
+\item \textit{ef.level = "prey"} will assume that the species efficiencies are defined accordingly to prey (i.e., it is the efficiency with which each prey item is assimilated once it has been preyed upon).
+\end{itemize}
+
+Using this methodology to compute fluxes with the \textit{species.level} example (fig. ref{fluxnetwork (here a picture of a network with fluxes on links)}) dataset would lead to the following lines of codes:\\ 
+
+\begin{lstlisting}
+# first attach the dataset
+attach(species.level)
+# create the vector of metabolic rates. In this example it is done using the general allometric equation:
+met.rates = 0.71*species.level$bodymasses^-0.25
+# The efficiencies are already defined in the efficiencies vector
+# Then the network of fluxes is obtained using:
+mat.fluxes = fluxing(mat, biomasses, met.rates, efficiencies)
+\end{lstlisting} 
+
+
+%\begin{figure}[h]
+%\centering
+%\includegraphics{species.level_fluxes.png}
+%\caption{Representation of the species.level food web. Width of links scales with fluxes}
+%\label{fluxnetwork}
+%\end{figure}
+
+
+
+\section{From fluxes to function}
+
+Once the matrix of fluxes is obtained, it is possible to estimate some ecosystem functions such as herbivory, detritivory or carnivory. In the following, we will define them as the sum of fluxes outgoing from plant nodes, detritus and animal nodes, respectively. It is important to note that, the fluxes estimated by the \textit{fluxing} function corresponds to energy loss by resource nodes. They differ from the energy assimilated by consumers nodes due to assimilation efficiencies. Thus, functions from the species.level example (fig. \ref{functions}) can be estimated by simple sum operations on the \textit{mat.fluxes}:\\
+
+% print of the corresponding R code
+\begin{lstlisting} 
+# basal species are species without prey 
+basals = colSums(mat.fluxes) == 0
+names[basals]
+# plants are basal species that are not  organic matter or exudates
+plants = basals[-which(names == 'dead organic matter' | names == 'root exudates')]
+# Herbivory is defined as the sum of fluxes ingoing plant consumers
+herbivory = sum(rowSums(mat.fluxes[plants, ]))
+# Carnivory is defined as the sum of fluxes ingoing animal consumers
+carnivory = sum(rowSums(mat.fluxes[!basals, ]))
+# detritivory is defined as the sum of fluxes ingoing detritus consumers
+detritivory = sum(mat.fluxes[names == 'dead organic matter',])
+# total fluxes
+total = sum(mat.fluxes)
+\end{lstlisting} 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{functions.jpeg}
+\caption{Estimation of the herbivory, carnivory and detritivory functions, as well as the total amount of energy transiting in the food web over one year.}
+\label{functions}
+\end{figure}
+
+
+\section{Importance of the parameter estimation - I feel that this part will be in SI}
+
+
+
+ideas of what can be done:
+assess the importance of preferences (comparing the fluxes of the network of trophic groups using the provided weighted food web  matrix or its binary equivalent). I need to find a good way to represent such differences. Maybe a histogram of scaled errors) \\
+
+Importance of the precision of the metabolic scaling: comparing fluxes for the  microcosm.level dataset when losses are defined using O2 measurment, allometric scaling considering metabolic types and allometric scaling based on the most general law.\\ 
+
+These two last points are mostly to answer to reviewer 2.\\
+
+ 
+
+
+
+\end{document}
