@@ -20,15 +20,19 @@ sensitivity(fun.name, param.name, var, n, full.output = FALSE, ...)
 \item{...}{Arguments to be passed to \code{fun.name}. Argument names must exactly match those of fun.name.}
 }
 \value{
-Mean coefficient of variation in comparison to non randomised inputs among all the replicates.
+a list of two elements of the same type as \code{param.name}: 
+first element contains the mean coefficient of variation in comparison to non randomised inputs among all the replicates, 
+second element contains the standard deviation of these coefficient of variation
 }
 \description{
 Assesses how sensitive the results from argument function are to variability of input parameter through coefficient of variation.
 }
 \details{
 At each replicate, a coefficient of variation is computed (relative to results obtained form \code{fun.name} without random variation).
-if \code{full.output} is \code{FALSE} (default) an object of the same type as the one produced by \code{fun.name} is returned, containing all of variation coefficients.
-If \code{full.output} is \code{TRUE}, a list of size \code{n} with of objects containing variation coefficient is returned.
+if \code{full.output} is \code{FALSE} (default) a list of two objects of the same type as the one produced by \code{fun.name} is returned, 
+first element contains the mean coefficient of variation in comparison to non randomised inputs among all the replicates, 
+second element contains the standard deviation of these coefficients of variation
+If \code{full.output} is \code{TRUE}, a list of size \code{n} with of objects containing the coefficients of variation  is returned.
 
 Argument for \code{...} should be passed with their names.
 }
