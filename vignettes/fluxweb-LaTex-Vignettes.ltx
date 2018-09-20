@@ -10,7 +10,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{pgfplots}
-%\usepackage[margin=1in]{geometry} %permet de redéfinir les marges
+%\usepackage[margin=1in]{geometry} %define margins
 \usepackage{verbatim}
 \usepackage{tabularx}
 \usepackage{ragged2e}
@@ -38,7 +38,7 @@
 \affil[1]{German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig, Deutscher Platz 5e, 04103 Leipzig, Germany}
 \affil[2]{Institute of Biodiversity, University of Jena, Dornburger Str. 159, 07743 Jena, Germany}
 \affil[3]{School of Science, University of Waikato, Private Bag 3105, Hamilton 3204, New Zealand }
-\affil[4]{Institute of Landscape Ecology, University of M{\"u}nster, Heisenbergstrasse 2, 48149 Münster, Germany}
+\affil[4]{Institute of Landscape Ecology, University of M{\"u}nster, Heisenbergstrasse 2, 48149 M{\"u}nster, Germany}
 \affil[5]{Institute of Biology, Leipzig University, Johannisallee 21, 04103 Leipzig, Germany}
 \affil[6]{Institute of Plant Sciences, University of Bern, Altenbergrain 21, 3013 Bern, Switzerland}
 \affil[7]{Bigelow Laboratory for Ocean Sciences, East Boothbay, Maine}
@@ -118,7 +118,30 @@ losses[inv] = 18.18 * body.masses[inv]^(-0.29)
 
 It is important to note that the use calculation of metabolic rates using the equations from the metabolic theory of ecology (\ref{MTE}) lead to values were units are per-gram of biomass, they do not correspond to the total energetic losses of the entire populations. It is quite common in food webs to have nodes such as 'detritus' or 'dissolved organic matter'. Values for the metabolic rates of such nodes can be set to \verb|NA| if they are basal and zero in any case.\\
 
-\input{table3.tex}
+% create table 3
+
+%\def\tabularxcolumn#1{m{#1}}
+\newcolumntype{Z}{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}X}
+
+\begin{table}[htdp]
+\centering
+\caption{Parameter values used for the calculation of species metabolic rates depending on their metabolic types. Values from \cite{Brown2004}}
+\label{metrate}
+%\begin{tabularx}{\linewidth}{|>{\RaggedRight}p{2.5cm}|x|x|Z|}\hline
+\begin{tabularx}{\linewidth}{|x|x|Z|}\hline
+\textbf{Metabolic type}     & \textbf{intercept($x_0$)}       								& \textbf{exponent ($b$)}	\\ \hline
+% 2nd line
+\textit{Ectotherm vertebrates}      & 18.18	&  -0.29
+\\ \hline
+% 3th line
+\textit{Endotherm vertebrates}      & 19.5	&  -0.29
+\\ \hline
+
+\textit{Invertebrates}      & 17.17	& -0.29
+\\ \hline
+
+\end{tabularx}
+\end{table}
 
 \paragraph{\textit{efficiencies}} The the last parameter needed to estimate fluxes is the vector of feeding \textbf{efficiencies}. Because species' physiological losses were estimated using metabolic rates, assimilation efficiencies should be used (assimilation efficiency defines the proportion of eaten biomass that can be use for biomass production plus metabolism \cite{Lang2017}). These efficiencies can be defined using basic information on organism types. Indeed, the efficiency with which a predator will assimilate energy from a prey can be defined by the type of prey eaten. 
 Considering a vector \textit{org.type} defining the organism types of food web nodes as 'animal', 'plant' or 'detritus', efficiencies values for these three categories are respectively $0.806$, $0.545$ and $0.106$ \cite{Lang2017}. The vector of \textit{efficiencies} can be created like:\\
