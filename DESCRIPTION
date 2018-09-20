@@ -11,4 +11,5 @@ URL: https://www.biorxiv.org/content/early/2017/12/06/229450
 LazyData: TRUE
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-
+Suggests: testthat, R.rsp 
+VignetteBuilder: R.rsp
