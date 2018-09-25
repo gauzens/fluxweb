@@ -1,5 +1,5 @@
 context("check if the jacobian matrix contains NA")
-load("fluxing_webs/fluxweb/data/groups.level.RData")
+load("groups.level.RData")
 test_that('all values defined',{
 
   mat.fluxes = fluxing(groups.level$mat, 

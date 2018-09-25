@@ -1,5 +1,5 @@
 context("check if sensitivity function keep variable types")
-load("fluxing_webs/fluxweb/data/groups.level.RData")
+load("groups.level.RData")
 test_that('objects remain the same',{
   var = 0.05
   losses = 0.71*groups.level$bodymasses^-0.25

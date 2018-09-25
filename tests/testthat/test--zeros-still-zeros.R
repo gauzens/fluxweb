@@ -1,5 +1,5 @@
 context("check if the fluxing functions add new links to the food web")
-load("fluxing_webs/fluxweb/data/groups.level.RData")
+load("groups.level.RData")
 test_that('zeros are stills zeros',{
   mat.fluxes = fluxing(groups.level$mat, 
                 groups.level$biomasses, 
