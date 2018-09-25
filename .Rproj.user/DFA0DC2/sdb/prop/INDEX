@@ -16,4 +16,7 @@
 ~%2Fprojects%2Ffluxing_webs%2Ffluxweb%2FR%2Fstability.R="41C2D353"
 ~%2Fprojects%2Ffluxing_webs%2Ffluxweb%2Fcran-comments.md="5110C858"
 ~%2Fprojects%2Ffluxing_webs%2Ffluxweb%2Fman%2Fspecies.level.Rd="B49A344C"
+~%2Fprojects%2Ffluxing_webs%2Ffluxweb%2Ftests%2Ftestthat%2Ftest--zeros-still-zeros.R="F2F8EF30"
+~%2Fprojects%2Ffluxing_webs%2Ffluxweb%2Ftests%2Ftestthat%2Ftest-createJacob-test.R="51B1AB00"
+~%2Fprojects%2Ffluxing_webs%2Ffluxweb%2Ftests%2Ftestthat%2Ftest-sensitivityKeepsTypes.R="D79C3BCB"
 ~%2Fprojects%2Ffluxweb%2FR%2Fsimple.case.R="B0077AB3"
