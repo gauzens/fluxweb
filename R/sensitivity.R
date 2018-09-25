@@ -48,17 +48,6 @@
 #'val.mat = fluxing(species.level$mat, species.level$biomasses, losses, species.level$efficiencies)
 #'
 #'
-#'cvs = c()
-#'for (var in seq(0, 0.6, 0.1)){
-#'  cvs = c(cvs, sensitivity(stability.value, "mat", var, 50, 
-#'                           val.mat = val.mat, 
-#'                           biomasses = species.level$biomasses, 
-#'                           losses = losses, 
-#'                           efficiencies = species.level$efficiencies, 
-#'                           growth.rate = growth.rates))
-#'}
-#'
-#'plot(abs(cvs) ~ seq(0, 0.6, 0.1))
 #'
 #' @export
 #'
