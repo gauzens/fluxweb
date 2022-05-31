@@ -159,7 +159,7 @@ fluxing = function(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TR
     if (length(efficiencies) != dim(mat)[1]){
       stop("'efficiencies' vector length sould be equal to number of species (dimension of mat)")
     }
-  } else if (dim(efficiencies != dim(mat))){
+  } else if (dim(efficiencies) != dim(mat)){
     stop("'efficiencies' matrix dimension different from 'mat'")
   }
   
