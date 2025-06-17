@@ -3,14 +3,16 @@
 \name{simple.case}
 \alias{simple.case}
 \title{Food web of a soil network ecosystem and species general information.}
-\format{a list of 4 elements:
+\format{
+a list of 4 elements:
 \describe{
  \item{mat}{the network adjacency matrix}
  \item{met.rate}{metabolic rates of species (J.h-1)}
  \item{biomasses}{species biomasses (g)}
  \item{efficiencies}{species assimilation efficiencies}
  \item{names}{species names}
-}}
+}
+}
 \description{
 This dataset correspond to the food web of a microcosm assembled from the Chesapeake Bay estuary (Lefcheck and Duffy 2010, Ecology)
 }

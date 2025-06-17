@@ -1,0 +1,191 @@
+%\VignetteIndexEntry{Mathematical_solutions}
+%\VignetteEngine{R.rsp::tex}
+%\VignetteKeyword{R}
+%\VignetteKeyword{package}
+%\VignetteKeyword{vignette}
+%\VignetteKeyword{LaTeX}
+
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{authblk}
+\usepackage{listings}
+%\linenumbers
+%\doublespacing
+
+\title{Mathematical solutions for the flux and stability calculations}
+\author{}
+\begin{document}
+\maketitle
+
+
+\section{Supplementary information I - mathematical resolution}
+\subsection{Efficiencies depending on predator identity}
+
+We will consider in the following that feeding efficiencies depend on predator identity. We define $e$ as the vector of efficiencies and $W$ as the matrix such that $W_{ij}$ is the proportion of energy entering $j$ that is obtained from $i$ ($\sum_j W_{ij} = 1$). $F_{ij}$ is the flux from species $i$ to $i$. $L_i$, the energy loss of species $j$ is defined by:
+\begin{equation}
+L_i = X_{i} + \sum_{j=1}^n\ F_{ij},
+\end{equation}
+where $n$ is the number of species and $X_i$ are the physiological losses of species $i$. Thus, for satisfying the equilibrium criteria, $F_i$, the sum of fluxes entering $i$ is: 
+\begin{equation}
+F_i = \frac{1}{e_{i}} \left(X_{i} + \sum_{j=1}^n F_{ij} \right).
+\end{equation} 
+As $W_{ij}$ sets the proportion of energy entering $j$ obtained from species $i$, using $F_{ij} = W_{ij}F_j$, we can write
+\begin{equation}\label{influx}
+F_{i} = \frac{1}{e_{i}} \left(X_{i} + \sum_{j=1}^n W_{ij}F_{j} \right),
+\end{equation}
+where values $W_{ij}$ are estimated accordingly to species preferences ($w_{ij}$) and prey abundances:
+\begin{equation}
+W_{ij} = \frac{w_{ij}B_i}{\sum_{k=1}^n w_{kj}B_k}.
+\end{equation}
+We then have:
+\begin{equation}
+e_{i}F_{i} = X_{i} + \sum_{j=1}^n W_{ij}F_{j},
+\end{equation}
+which can be rewritten as:
+\begin{equation}
+diag(E)F = X + WF,
+\end{equation}
+where $diag(e)$ is the diagonal matrix such that $diag(e)_{ii} = e_i$. Provided that $\left(diag(e) - W\right)$ is invertible, the system solves as:
+\begin{equation}
+F = \left(diag(e) - W\right)^{-1}X.
+\end{equation}
+Then, all fluxes $F_{ij} = W_{ij}F_j$ are derived from $F_j$ using $W$.
+
+
+\subsection{Efficiencies depending on prey identity} 
+
+Another common method is to define feeding efficiencies according to prey identity. This section proposes a method to adapt the previous framework to this case.\\
+
+As preferences are defined at the prey level, we need to adapt the previous framework by adding a nutrient node on which all basal species feed with an efficiency of one. Then, eq.\ref{influx} becomes:
+\begin{eqnarray}
+F_i\left(\sum_{j=1}^nW_{ji}e_j + b_i \right)= X_i + \sum_{j=1}^n W_{ij}F_{j}\\
+\Leftrightarrow 	 F_i\left(\sum_{j=1}^nW^T_{ij}e_j + b_i \right) = X_i + \sum_{j=1}^n W_{ij}F_{j}
+\end{eqnarray}
+were $b_i$ is $1$ if $i$ is a basal species, 0 otherwise. This can be rewritten as:
+\begin{equation}
+diag(W^Te + \vec{b})F = X + WF,
+\end{equation}
+and, provided that $(diag(W^Te + \vec{b}) - W)$ is invertible, solved by:
+\begin{equation}
+F = (diag(W^Te + \vec{b}) - W)^{-1}X
+\end{equation}
+
+\subsection{Efficiencies depending on the link identity}
+
+It is possible to generalise this approach to efficiencies defined for each prey-predator couple. The solution needs the definition of matrix $U$ such as $U_{ij} = W_{ij}e_{ij}$. Then, eq. \ref{influx} becomes: 
+\begin{eqnarray}
+F_i\sum_{j=1}^nU^T_{ij} = X_i + \sum_{j=1}^n W_{ij}F_{j}
+\end{eqnarray}
+and the system then reads:
+\begin{equation}
+diag(U^T\vec{1})F = X + WF
+\end{equation}
+where $\vec{1}$ is the vector of ones. System is solved as:
+\begin{equation}
+F = (diag(U^T\vec{1}) - W)^{-1}X
+\end{equation}
+
+\section{Supplementary information II - Stability}
+
+This document presents how the fluxes calculated under the steady state hypothesis can easily be used to assess system stability, following the framework of Moore and de Ruiter 2012. Here we use resilience as a definition of stability. Resilience is determined from the Jacobian matrix. The system is in a stable equilibrium only if the real parts of eigenvalues from the Jacobian are all negative. In this case, resilience is the absolute value of the real part of the largest eigenvalue, which is the value returned by the \textit{stability} function from the \textit{fluxweb} package.\\
+Another measure of stability, provided by the function \textit{make.stability}, is to find the minimal value of a scalar $s$ defining the proportion of physiological losses related to species density. In this case, physiological loss terms in the diagonal of the Jacobian matrix are now defined as $sX_i$ and directly affect the resilience value, $s$ being the measure of stability.
+We will show in the following section how fluxes at equilibrium can relate to a Lotka-Volterra system in an equilibrium state, and how to compute the Jacobian matrix, first assuming that feeding efficiencies relate to predator identity and then assuming that they depend on prey identity.
+\subsection{Derivation of the Jacobian matrix}
+\subsubsection{Efficiencies defined at predator level}
+
+We can consider the following system of equations, describing the dynamics of population biomasses in a community:
+% how to add the symbol for an equation system in this framework?
+\begin{subequations}
+\begin{alignat}{2}
+\frac{dB_i}{dt} &= r_iB_i - \sum_{j} a_{ij}B_iB_j & \qquad& \text{(for producers)}\\
+\frac{dB_i}{dt} &= d_i - \sum_{j} a_{ij}B_iB_j & \qquad& \text{(for detritus)}\\
+\frac{dB_i}{dt} &= -X_iB_i  +\sum_{j}e_ia_{ji}B_iB_j - \sum_{j} a_{ij}B_iB_j && \text{(for consumers)}
+\end{alignat}
+\end{subequations}
+
+$a_{ij}$ is the coefficient of interaction between prey $i$ and predator $j$ and $r_i$ is the relative growth rate of producer $i$. $P_i$ and $p_i$ respectively define the sets of predators and prey of species $i$. $d_i$ defines the rate of replenishment for detritus, assumed to be independent to the detritus mass.  
+This model assumes a type I functional response $f_{ij}$ defined as:
+\begin{equation}
+f_{ij} = a_{ij}B_i.
+\end{equation}
+As the whole method assumes that fluxes and biomasses are at an equilibrium state, we have:
+\begin{equation}\label{equilibrium}
+F_{ij} = a_{ij}B_i^*B_j^*,
+\end{equation}
+$B_i^*$ denoting biomass of species $i$ at equilibrium.
+Then, off-diagonal elements $\alpha_{ij}$ from the Jacobian matrix correspond to the per capita effects (effect of one unit of species biomass). Considering the possible presence of cycles of length 1 (species $i$ is at the same time a prey and a predator of species $j$), off diagonal elements are
+\begin{equation}\label{jacs}
+\alpha_{ij} = \frac{\delta\frac{dB_i}{dt}}{\delta B_j} = e_ia_{ji}B_i - a_{ij}B_i  \qquad i \neq j\\
+\end{equation}
+and at equilibrium, from eq. \ref{equilibrium} we have $B_i^* = \frac{F_{ij}}{a_{ij}B_j^*}$ and $B_i^* = \frac{F_{ji}}{a_{ji}B_j^*}$. We can use it to replace elements from eq. \ref{jacs}  and obtain:
+\begin{equation}
+\alpha_{ij} = e_i\frac{F_{ji}}{B_j^*} - \frac{F_{ij}}{B_j^*} \qquad i \neq j
+\end{equation}
+
+Diagonal elements, considering possible cannibalistic loops, for producers ($p$), detritus ($d$) and consumers ($c$) are:
+\begin{subequations}
+\begin{alignat}{1}
+\alpha_{pp} &= r_p - \sum_{j}a_{pj}B_j = 0 \\
+\alpha_{dd} &= - \sum_{j}a_{dj}B_j\\
+\alpha_{cc} &= -X_c + 2e_ca_{cc}B_c + \sum_{j \neq c}e_ca_{jc}B_j - 2a_{cc}B_c - \sum_{j \neq c}a_{cj}B_j\\
+&= -X_c + \sum_{j}e_ca_{jc}B_j - \sum_{j}a_{cj}B_j + e_ca_{cc}B_c  - a_{cc}B_c \\
+&= e_ca_{cc}B_c  - a_{cc}B_c
+\end{alignat}
+\end{subequations}
+with $a_{ii} \neq 0$ only if species $i$ is cannibalistic. Note that the first three terms for $\alpha_{cc}$ sum to 0 at equilibrium. Again, using $B_i^* = \frac{F_{ij}}{a_{ij}B_j^*}$ and $B_i^* = \frac{F_{ji}}{a_{ji}B_j^*}$ we obtain at equilibrium:\\
+\begin{subequations}
+\begin{alignat}{1}
+\alpha_{pp} &= 0\\
+\alpha_{dd} &= - \frac{1}{B_d^*}\sum_{j}F_{dj}\\
+\alpha_{cc} &= \frac{F_{cc}}{B_c^*}(e_c-1)
+\end{alignat}
+\end{subequations}
+ 
+
+\subsubsection{Efficiencies defined at prey level}
+
+The equation for consumers is now written as:
+\begin{equation}
+\frac{dB_i}{dt} = -X_iB_i  +\sum_{j}e_{j}a_{ji}B_iB_j - \sum_{j}a_{ij}B_iB_j
+\end{equation}
+
+Here $e_{j}$ defines efficiency of prey species $j$. At equilibrium, off-diagonal elements of the Jacobian are as above:
+
+\begin{equation}
+\alpha_{ij} = e_j\frac{F_{ji}}{B_j^*} - \frac{F_{ij}}{B_j^*} \qquad i \neq j
+\end{equation}
+
+Diagonal elements, considering possible cannibalistic loops for consumers ($c$) are:
+\begin{subequations}
+\begin{alignat}{1}
+\alpha_{cc} &= -X_c + 2e_ca_{cc}B_c + \sum_{j \neq c}e_ja_{jc}B_j - 2a_{cc}B_c - \sum_{j \neq c}a_{cj}B_j\\
+&= -X_c + e_ca_{cc}B_c + \sum_{j}e_ja_{jc}B_j - a_{cc}B_c - \sum_{j}a_{cj}B_j\\
+&= e_ca_{cc}B_c  - a_{cc}B_c
+\end{alignat}
+\end{subequations}
+
+
+which, at equilibrium leads, like above, to: 
+\begin{subequations}
+\begin{alignat}{1}
+\alpha_{pp} &= 0\\
+\alpha_{dd} &= - \frac{1}{B_d^*}\sum_{j}F_{dj}\\
+\alpha_{cc} &= \frac{F_{cc}}{B_c^*}(e_c-1)
+\end{alignat}
+\end{subequations}
+ 
+\subsubsection{Preferences defined at link level}
+
+Following the same mathematical derivation as before, we obtain:
+\begin{subequations}
+\begin{alignat}{1}
+\alpha_{ij} &= e_{ij}\frac{F_{ji}}{B_j^*} - \frac{F_{ij}}{B_j^*} \qquad i \neq j\\
+\alpha_{pp} &= 0\\
+\alpha_{dd} &= - \frac{1}{B_d^*}\sum_{j}F_{dj}\\
+\alpha_{cc} &= \frac{F_{cc}}{B_c^*}(e_{cc}-1)
+\end{alignat}
+\end{subequations}
+
+
+\end{document}

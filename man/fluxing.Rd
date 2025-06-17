@@ -4,8 +4,15 @@
 \alias{fluxing}
 \title{generate fluxes}
 \usage{
-fluxing(mat, biomasses = NULL, losses, efficiencies, bioms.prefs = TRUE,
-  bioms.losses = TRUE, ef.level = "prey")
+fluxing(
+  mat,
+  biomasses = NULL,
+  losses,
+  efficiencies,
+  bioms.prefs = TRUE,
+  bioms.losses = TRUE,
+  ef.level = "prey"
+)
 }
 \arguments{
 \item{mat}{Network adjacency matrix describing interactions among species. Interactions can be either binary or weighted.}

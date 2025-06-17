@@ -7,9 +7,9 @@ test_that('all values defined',{
                        0.71*groups.level$bodymasses, 
                        groups.level$efficiencies)
   growth.rates = rep(NA, dim(groups.level$mat)[1])
-  growth.rates[colSums(groups.level$mat) == 0] = 0.5
-  
-  jacob = create.jacob(mat.fluxes, groups.level$biomasses, 0.71*groups.level$bodymasses, groups.level$efficiencies, growth.rates)
+  met.types = rep("animals", nrow(mat.fluxes))
+  met.types[groups.level$efficiencies == 0.545] = "plants"
+  jacob = create.jacob(mat.fluxes, groups.level$biomasses, groups.level$efficiencies, met.types)
   expect_equal(0, sum(is.na(jacob)))
 
 }) 

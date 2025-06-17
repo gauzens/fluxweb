@@ -4,24 +4,23 @@
 \alias{stability.value}
 \title{Estimates network stability}
 \usage{
-stability.value(val.mat, biomasses, losses, efficiencies, growth.rate,
-  bioms.prefs = TRUE, bioms.losses = TRUE, ef.level = "prey",
-  full.output = FALSE)
+stability.value(
+  val.mat,
+  biomasses,
+  efficiencies,
+  metabolic.types,
+  ef.level = "prey",
+  full.output = FALSE
+)
 }
 \arguments{
 \item{val.mat}{A matrix describing fluxes between species (usually a result of \code{\link[fluxweb]{fluxing}} function).}
 
 \item{biomasses}{A vector of species biomasses.}
 
-\item{losses}{A vector or an array of species energy losses (excluding predation).}
-
 \item{efficiencies}{A vector or an array of conversion efficiencies of species in the adjacency matrix. These values describe the proportion of consumed energy that is converted to biomass of the consumer.}
 
-\item{growth.rate}{A vector defining growth rate of basal species.}
-
-\item{bioms.prefs}{Logical, if \code{TRUE} (default) preferences are scaled according to species biomasses.}
-
-\item{bioms.losses}{Logical, if \code{TRUE} (default) losses are scaled with biomass.}
+\item{metabolic.types}{A vector containing information on species type (\code{"detritus"}, \code{"plant"} or \code{"animal"})}
 
 \item{ef.level}{Set to \code{"prey"} if efficiencies are defined by prey, \code{"pred"} if they are a property of the predator.}
 
@@ -36,21 +35,10 @@ Computes resilience of the system through Jacobian matrix eigenvalues.
 \details{
 \itemize{
 
-\item{\code{losses}:} Express species energetic losses not related to consumption. Usually metabolic or death rates.
-When an array is provided, losses associated to each species correspond to line sums.
 
 \item{\code{efficiencies}:} Determines how efficient species are to convert energy (see \code{ef.level} for more details).
 Providing an array will assume values depending on both prey and predator identity.
 
-\item{\code{growth.rate}:} Growth rates of basal species defined. Length of the vector should be equal to the number of species. 
-expects positive numeric values for index corresponding to basal species, NA otherwise
-
-\item{\code{bioms.pref}:} If \code{TRUE}, preferences \eqn{w_{ij}} of predator j on prey i are scaled according to species biomass using the following formula:
-\deqn{
-w_{i,j} = \frac{mat[i,j] * biomasses[i]}{\sum_k mat[i,k]* biomasses[k]}
-}
-\item{\code{bioms.losses}:} If \code{TRUE}, function will assume that losses are defined per biomass unit.
-Thus, total losses will be thereafter multiplied by biomass values for each species.
 
 \item{\code{ef.level}:} If \code{"prey"} (resp \code{"pred"}), the total amount of energy that can be metabolized from a trophic link
 will be determined by prey (resp pred) identity. \code{"link.specific"} assumes that efficiencies are defined for each trophic interaction
@@ -61,10 +49,9 @@ and implies \code{efficiencies} parameter to be a matrix
 }
 \examples{
 losses = 0.15 * groups.level$bodymasses^(-0.25)
-
-# growth rates of basal sppecies
-growth.rates = rep(NA, dim(groups.level$mat)[1])
-growth.rates[colSums(groups.level$mat) == 0] = 0.5
+# define metbolic types:
+met.types = rep('animal', length(losses))
+met.types[groups.level$efficiencies == 0.545] = 'plant'
 
 val.mat = fluxing(groups.level$mat, 
                   groups.level$biomasses, 
@@ -75,9 +62,8 @@ val.mat = fluxing(groups.level$mat,
                   
 stability.value(val.mat, 
                 groups.level$biomasses, 
-                losses, 
-                groups.level$efficiencies, 
-                growth.rates, 
+                groups.level$efficiencies,
+                metabolic.types = met.types,
                 ef.level = "pred")
 
 }

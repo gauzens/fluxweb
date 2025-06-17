@@ -2,12 +2,59 @@
 % Please edit documentation in R/stability.R
 \name{create.jacob}
 \alias{create.jacob}
-\title{Internal function to compute Jacobian}
+\title{Compute the Jacobian matrix}
 \usage{
-create.jacob(val.mat, biomasses, losses, efficiencies, growth.rate,
-  bioms.prefs = TRUE, bioms.losses = TRUE, ef.level = "prey")
+create.jacob(
+  val.mat,
+  biomasses,
+  efficiencies,
+  metabolic.types,
+  ef.level = "prey"
+)
+}
+\arguments{
+\item{val.mat}{A matrix describing fluxes between species (usually a result of \code{\link[fluxweb]{fluxing}} function).}
+
+\item{biomasses}{A vector of species biomasses.}
+
+\item{efficiencies}{A vector or an array of conversion efficiencies of species in the adjacency matrix.}
+
+\item{metabolic.types}{A vector containing information on species type (\code{"detritus"}, \code{"plant"} or \code{"animal"})}
+
+\item{ef.level}{Set to \code{"prey"} if efficiencies are defined by prey, \code{"pred"} if they are a property of the predator, \code{link.specific} if they depend on both consumer and resource identity.}
+}
+\value{
+A matrix representing the Jacobian matrix of the dynamical system associated with the fluxes from the \code{\link[fluxweb]{fluxing}} function.
 }
 \description{
-Internal function to compute Jacobian
+Compute the Jacobian matrix
 }
-\keyword{internal}
+\examples{
+# First compute species per unit biomass metabolic rates:
+losses = 0.15 * groups.level$bodymasses^(-0.25)
+
+
+val.mat = fluxing(groups.level$mat, 
+                  groups.level$biomasses, 
+                  losses, 
+                  groups.level$efficiencies, 
+                  bioms.pref = TRUE, 
+                  ef.level = "prey")
+                  
+# define metabolic types                   
+
+met.types = rep("animal", nrow(val.mat))
+met.types[groups.level$efficiencies == 0.545] = "plant"
+met.types[groups.level$efficiencies == 0.158] = "detritus"
+
+create.jacob(val.mat, 
+               groups.level$biomasses, 
+               groups.level$efficiencies, 
+               met.types,
+               ef.level = "prey")
+               
+
+}
+\author{
+Benoit Gauzens, \email{benoit.gauzens@gmail.com}
+}
