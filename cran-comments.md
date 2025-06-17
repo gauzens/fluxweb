@@ -5,18 +5,14 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+Duration: 14.5s
 
+0 errors ✔ | 1 warning ✖ | 0 notes ✔
 
-## Reverse dependencies
-
-no reverse dependencies.
-
----
-
-* I have run R CMD check on the NUMBER downstream dependencies.
-  (Summary at ...). 
-  
-* FAILURE SUMMARY
-
-* All revdep maintainers were notified of the release on RELEASE DATE.
+❯ checking sizes of PDF files under ‘inst/doc’ ... WARNING
+    ‘gs+qpdf’ made some significant size reductions:
+       compacted ‘How_to.pdf’ from 976Kb to 179Kb
+    consider running tools::compactPDF(gs_quality = "ebook") on these files,
+    or build the source package with --compact-vignettes=both
+    
+I would assume that building locally with --compact-vignettes=both will not change what happens on the CRAN servers which have the correct options set?
