@@ -3,7 +3,6 @@ Type: Package
 Title: Estimate Energy Fluxes in Food Webs
 Version: 2.0.0
 Authors@R: person("Benoit", "Gauzens", role = c("cre", "aut"), email = "benoit.gauzens@gmail.com")
-Maintainer: Benoit Gauzens <benoit.gauzens@gmail.com>
 Description: Compute energy fluxes in trophic networks, from resources to their consumers, and can be applied to systems ranging from simple two-species interactions to highly complex food webs. It implements the approach described in Gauzens et al. (2017) <doi:10.1101/229450> to calculate energy fluxes, which are also used to calculate equilibrium stability.
 License: GPL (>=2.0)
 Depends: stats
