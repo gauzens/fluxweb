@@ -191,7 +191,7 @@ create.jacob = function(val.mat, biomasses, efficiencies, metabolic.types, ef.le
     diag(jacob) = (diag(val.mat) / biomasses) * (diag(efficiencies) - 1)
   }
   diag(jacob)[plants] = 0
-  diag(jacob)[detritus] = colSums(val.mat[detritus,]) / biomasses[detritus]
+  diag(jacob)[detritus] = colSums(val.mat[detritus,, drop = FALSE]) / biomasses[detritus]
   
   return(jacob)
 }
