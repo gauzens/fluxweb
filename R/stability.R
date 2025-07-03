@@ -181,7 +181,7 @@ create.jacob = function(val.mat, biomasses, efficiencies, metabolic.types, ef.le
     diag(jacob) = (diag(val.mat) / biomasses) * (efficiencies - 1)
   }
   if (ef.level == "prey"){
-    jacob = sweep(t(jacob), MARGIN = 2, efficiencies, '*') - val.mat # ej * Fji - Fij 
+    jacob = sweep(t(val.mat), MARGIN = 2, efficiencies, '*') - val.mat # ej * Fji - Fij 
     jacob = sweep(jacob, MARGIN = 2, biomasses, '/')
     diag(jacob) = (diag(val.mat) / biomasses) * (efficiencies - 1)
   }
