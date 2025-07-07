@@ -7,7 +7,7 @@ Description: Compute energy fluxes in trophic networks, from resources to their 
 License: GPL (>=2.0)
 Depends: stats
 Encoding: UTF-8
-URL: https://www.biorxiv.org/content/early/2017/12/06/229450
+URL: https://www.biorxiv.org/content/10.1101/229450v4
 LazyData: TRUE
 RoxygenNote: 7.3.2
 NeedsCompilation: no
